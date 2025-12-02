@@ -1,0 +1,226 @@
+/* =====================================
+    RESET Y ESTILOS GLOBALES (RETRO FUTURISTA)
+    ===================================== */
+
+/* Reset básico */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+:root {
+  /* Colores Retro Futurista (Pasteles brillantes y Acero) */
+  --color-sky-blue: #89cff0;  /* Azul cielo suave */
+  --color-coral: #ff7f50;     /* Coral brillante/Naranja espacial */
+  --color-steel: #e0e0e0;     /* Acero claro / Aluminio */
+  --color-dark-text: #00004d; /* Azul marino profundo (similar al texto de TV) */
+  --color-white: #ffffff;
+}
+
+/* IMPORTANTE: Añadir fuentes para un look Retro Futurista
+   Te sugiero la fuente "Orbitron" o "Varela Round" (geométrica y limpia).
+   Añádela a tu HTML:
+   <link href="https://fonts.googleapis.com/css2?family=Varela+Round&display=swap" rel="stylesheet">
+*/
+
+body {
+  /* Fuente limpia y geométrica */
+  font-family: 'Varela Round', sans-serif;
+
+  /* Fondo de cielo/espacio suave y optimista */
+  background: linear-gradient(135deg, var(--color-sky-blue) 0%, var(--color-coral) 100%);
+
+  /* Centrado vertical y horizontal */
+  min-height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+
+  /* Padding para móviles */
+  padding: 20px;
+}
+
+/* =====================================
+    TARJETA DE PERFIL (Aerodinámica)
+    ===================================== */
+
+.tarjeta-perfil {
+  /* Dimensiones */
+  width: 100%;
+  max-width: 340px; /* Un poco más grande y ancho */
+
+  /* Espaciado interno */
+  padding: 35px 25px;
+
+  /* Fondo blanco brillante (Plástico de los 60) */
+  background-color: var(--color-white);
+  
+  /* Borde de aluminio pulido */
+  border: 4px solid var(--color-steel);
+  border-radius: 20px; /* Bordes muy redondeados y aerodinámicos */
+
+  /* Sombra limpia y suave (Levitando ligeramente) */
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+
+  /* Alineación de texto */
+  text-align: center;
+
+  /* Transición suave */
+  transition: transform 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275); /* Rebote para el efecto futurista */
+}
+
+/* Efecto hover en la tarjeta */
+.tarjeta-perfil:hover {
+  transform: translateY(-10px); /* Asciende como una nave espacial */
+  box-shadow: 0 20px 40px rgba(0, 0, 0, 0.3);
+}
+
+/* =====================================
+    IMAGEN DE PERFIL (Ojo de buey / Ventana de nave)
+    ===================================== */
+
+.perfil-imagen {
+  /* Tamaño */
+  width: 140px; /* Grande y prominente */
+  height: 140px;
+
+  /* Hacer circular */
+  border-radius: 50%;
+
+  /* Borde de Acero/Anillo exterior de nave */
+  border: 6px solid var(--color-steel);
+
+  /* Brillo interior (simulando luz de cabina) */
+  box-shadow: 0 0 0 2px var(--color-coral), inset 0 0 10px rgba(0, 0, 0, 0.2);
+
+  /* Espaciado inferior */
+  margin-bottom: 25px;
+
+  /* Asegurar que la imagen no se deforme */
+  object-fit: cover;
+
+  /* Transición */
+  transition: transform 0.3s ease;
+}
+
+.perfil-imagen:hover {
+  transform: scale(1.08) rotate(2deg);
+}
+
+/* =====================================
+    INFORMACIÓN DEL PERFIL (Limpio y legible)
+    ===================================== */
+
+.perfil-nombre {
+  /* Tamaño y peso */
+  font-size: 28px;
+  font-weight: 700;
+
+  /* Color azul oscuro de los monitores de tubo */
+  color: var(--color-dark-text);
+
+  /* Espaciado */
+  margin-bottom: 5px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.perfil-titulo {
+  /* Tamaño */
+  font-size: 18px;
+
+  /* Color de acento de Coral/Cohete */
+  color: var(--color-coral);
+
+  /* Peso */
+  font-weight: 500;
+
+  /* Espaciado */
+  margin-bottom: 20px;
+}
+
+.perfil-descripcion {
+  /* Tamaño */
+  font-size: 15px;
+
+  /* Color gris/negro suave */
+  color: #555;
+
+  /* Altura de línea para legibilidad */
+  line-height: 1.7;
+
+  /* Espaciado */
+  margin-bottom: 30px;
+}
+
+/* =====================================
+    BOTÓN (Cohete Propulsor)
+    ===================================== */
+
+.btn-contactar {
+  /* Tamaño */
+  padding: 15px 40px;
+  font-size: 17px;
+
+  /* Colores de gradiente de propulsor/combustible */
+  background: linear-gradient(90deg, var(--color-coral) 0%, #ff5733 100%);
+  color: var(--color-white);
+
+  /* Borde y forma */
+  border: none;
+  border-radius: 30px; /* Totalmente redondeado */
+
+  /* Texto */
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+
+  /* Sombra de propulsor (Glow) */
+  box-shadow: 0 6px 15px rgba(255, 127, 80, 0.6);
+
+  /* Cursor */
+  cursor: pointer;
+
+  /* Transición */
+  transition: all 0.2s ease;
+}
+
+/* Efecto hover del botón */
+.btn-contactar:hover {
+  /* Simular el encendido del motor */
+  background: linear-gradient(90deg, #ff5733 0%, var(--color-coral) 100%);
+  transform: scale(1.05);
+  box-shadow: 0 8px 20px rgba(255, 99, 71, 0.8);
+}
+
+/* Efecto active del botón */
+.btn-contactar:active {
+  transform: translateY(2px);
+  box-shadow: 0 4px 10px rgba(255, 127, 80, 0.4);
+}
+
+/* Efecto focus para accesibilidad */
+.btn-contactar:focus {
+  outline: 4px solid var(--color-sky-blue);
+  outline-offset: 4px;
+}
+
+/* =====================================
+    RESPONSIVE
+    ===================================== */
+
+@media (max-width: 480px) {
+  .tarjeta-perfil {
+    padding: 30px 20px;
+  }
+
+  .perfil-nombre {
+    font-size: 24px;
+  }
+
+  .perfil-imagen {
+    width: 120px;
+    height: 120px;
+  }
+}
