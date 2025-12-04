@@ -1,0 +1,287 @@
+/* Colores Art Déco:
+   - Base: Negro (#1C1C1C) o Azul Profundo (#2C3E50)
+   - Acentos: Dorado (#FFD700), Plateado (#C0C0C0), Azul Zafiro (#0077B6)
+   - Fondo: Patrón geométrico sutil
+*/
+
+body {
+    font-family: 'Georgia', serif; /* Fuente con serifs elegantes */
+    margin: 0;
+    padding: 40px 20px;
+    /* Fondo Azul Profundo y Negro */
+    background: linear-gradient(135deg, #2C3E50 0%, #1C1C1C 100%);
+    min-height: 100vh;
+    color: #FFD700; /* Texto dorado */
+    /* Patrón de fondo geométrico sutil (opcional) */
+    background-image: repeating-linear-gradient(45deg, rgba(255, 255, 255, 0.05), rgba(255, 255, 255, 0.05) 5px, transparent 5px, transparent 10px);
+}
+
+.container {
+    max-width: 1000px;
+    margin: 0 auto;
+    /* Borde dorado que enmarca el contenido principal */
+    border: 5px solid #FFD700; 
+    padding: 20px;
+    background-color: rgba(0, 0, 0, 0.7); /* Contraste oscuro para el contenido */
+}
+
+h1 {
+    text-align: center;
+    color: #FFD700; /* Dorado para el título */
+    font-family: 'Times New Roman', serif;
+    font-size: 3rem;
+    margin-bottom: 0.5rem;
+    text-transform: uppercase;
+    letter-spacing: 5px; /* Énfasis Art Déco */
+}
+
+.intro {
+    text-align: center;
+    color: #C0C0C0; /* Plateado para la intro */
+    font-size: 1.2rem;
+    margin-bottom: 3rem;
+}
+
+code {
+    background: #0077B6; /* Azul Zafiro */
+    color: white;
+    padding: 2px 6px;
+    border-radius: 0; /* Bordes duros */
+    border: 1px solid #FFD700;
+}
+
+.comparison-grid {
+    gap: 3rem;
+    margin-bottom: 4rem;
+}
+
+.box-wrapper {
+    background: #2C3E50; /* Azul Profundo */
+    padding: 2rem;
+    border-radius: 0;
+    box-shadow: 0 0 20px rgba(255, 215, 0, 0.5); /* Resplandor dorado */
+    border: 3px solid #C0C0C0; /* Borde plateado */
+}
+
+.box-wrapper h2 {
+    margin: 0 0 1.5rem 0;
+    font-size: 1.5rem;
+    color: #FFD700;
+    text-align: center;
+    border-bottom: 2px solid #0077B6; /* Línea de diseño geométrico */
+    padding-bottom: 10px;
+}
+
+/* LAS DOS CAJAS - MISMO CÓDIGO CSS */
+.box {
+    width: 200px;
+    padding: 20px;
+    border: 10px solid #0077B6; /* Borde Azul Zafiro */
+    background-color: #f0f0f0; /* Fondo más claro para el contenido */
+    margin: 0 auto 1.5rem;
+    min-height: 120px;
+    box-shadow: 5px 5px 0 #1C1C1C; /* Sombra sutil para profundidad */
+}
+
+/* ÚNICA DIFERENCIA: box-sizing (MANTENIDO) */
+.content-box {
+    box-sizing: content-box;
+}
+
+.border-box {
+    box-sizing: border-box;
+}
+
+.box p {
+    margin: 0.3rem 0;
+    font-size: 0.9rem;
+    color: #1C1C1C;
+}
+
+.box .result {
+    margin-top: 1rem;
+    font-size: 1.1rem;
+    color: #E74C3C; /* Rojo de contraste para el resultado (error) */
+    font-weight: bold;
+}
+
+.calculation {
+    background: #1C1C1C; /* Negro para el bloque de código */
+    padding: 1.5rem;
+    border-radius: 0;
+    border-left: 5px solid #FFD700; /* Borde dorado */
+}
+
+.calculation p {
+    margin: 0 0 0.5rem 0;
+    font-weight: 600;
+    color: #C0C0C0;
+}
+
+.calculation code {
+    display: block;
+    background: #333;
+    padding: 1rem;
+    border-radius: 0;
+    font-family: 'Courier New', monospace;
+    line-height: 1.8;
+    color: #0077B6;
+    border: none;
+}
+
+.calculation strong {
+    color: #E74C3C; 
+    font-size: 1.2em;
+}
+
+.explanation,
+.best-practice,
+.interactive-demo {
+    background: #2C3E50;
+    padding: 2.5rem;
+    border-radius: 0;
+    margin-bottom: 2rem;
+    box-shadow: 0 0 15px rgba(255, 215, 0, 0.3);
+    border: 3px solid #C0C0C0;
+}
+
+.explanation h2,
+.best-practice h2,
+.interactive-demo h2 {
+    color: #FFD700;
+    margin: 0 0 1.5rem 0;
+    border-bottom: 1px solid #0077B6;
+    padding-bottom: 10px;
+}
+
+.benefits-grid {
+    gap: 1.5rem;
+}
+
+.benefit {
+    padding: 1rem;
+    background: #1C1C1C;
+    border-radius: 0;
+    border-left: 4px solid #FFD700; /* Dorado */
+    border-right: 4px solid #FFD700; /* Dorado para simetría */
+}
+
+.benefit h3 {
+    margin: 0 0 0.5rem 0;
+    color: #C0C0C0;
+    font-size: 1.1rem;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+}
+
+.benefit p {
+    margin: 0;
+    font-size: 0.9rem;
+    color: #A9A9A9;
+}
+
+.best-practice pre {
+    background: #1C1C1C;
+    color: #ecf0f1;
+    padding: 1.5rem;
+    border-radius: 0;
+    overflow-x: auto;
+    margin: 1.5rem 0;
+    border: 2px solid #C0C0C0;
+}
+
+.best-practice pre code {
+    background: none;
+    color: #0077B6;
+    font-size: 0.95rem;
+    line-height: 1.6;
+}
+
+.tip {
+    background: #FFD700; /* Dorado de fondo */
+    color: #1C1C1C; /* Texto oscuro */
+    padding: 1rem;
+    border-radius: 0;
+    border-left: 5px solid #E74C3C;
+    font-weight: bold;
+}
+
+.controls {
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.controls label {
+    color: #C0C0C0;
+}
+
+.controls span {
+    color: #FFD700;
+}
+
+/* Estilo de los rangos para un look más lujoso/dark */
+input[type="range"] {
+    -webkit-appearance: none;
+    appearance: none;
+    background: #1C1C1C;
+    border: 1px solid #0077B6;
+    height: 10px;
+    border-radius: 5px;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    appearance: none;
+    width: 15px;
+    height: 15px;
+    border-radius: 50%;
+    background: #FFD700;
+    cursor: pointer;
+    border: 2px solid #000;
+}
+
+.demo-boxes {
+    gap: 3rem;
+}
+
+.demo-box {
+    box-sizing: content-box;
+    width: 200px;
+    padding: 20px;
+    border: 10px solid #E74C3C; /* Rojo para content-box */
+    background-color: #f0f0f0;
+    margin: 0 auto;
+    text-align: center;
+    transition: all 0.3s ease;
+    border-radius: 0;
+}
+
+.demo-border-box {
+    box-sizing: border-box;
+    border-color: #0077B6; /* Azul Zafiro para border-box */
+    background-color: #f0f0f0;
+}
+
+.demo-box p {
+    margin: 0.5rem 0;
+    font-weight: 600;
+    color: #1C1C1C;
+}
+
+/* Mantenimiento de Responsive */
+@media (max-width: 768px) {
+    h1 {
+        font-size: 2rem;
+        letter-spacing: 3px;
+    }
+    
+    .comparison-grid,
+    .demo-boxes {
+        grid-template-columns: 1fr;
+    }
+    
+    .box {
+        width: 100%;
+        max-width: 200px;
+    }
+}
