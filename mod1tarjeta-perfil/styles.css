@@ -224,3 +224,137 @@ body {
     height: 120px;
   }
 }
+/* =====================================
+    RESPONSIVE COMPLETO
+   ===================================== */
+
+/* TABLETS GRANDES (max 1024px) */
+@media (max-width: 1024px) {
+
+  body {
+    padding: 40px;
+  }
+
+  .tarjeta-perfil {
+    max-width: 380px;
+    padding: 40px 28px;
+  }
+
+  .perfil-imagen {
+    width: 150px;
+    height: 150px;
+  }
+
+  .perfil-nombre {
+    font-size: 30px;
+  }
+
+  .perfil-titulo {
+    font-size: 20px;
+  }
+
+  .perfil-descripcion {
+    font-size: 16px;
+  }
+}
+
+/* TABLETS (max 768px) */
+@media (max-width: 768px) {
+  body {
+    padding: 30px;
+  }
+
+  .tarjeta-perfil {
+    max-width: 360px;
+    padding: 35px 26px;
+  }
+
+  .perfil-imagen {
+    width: 140px;
+    height: 140px;
+  }
+
+  .perfil-nombre {
+    font-size: 27px;
+  }
+
+  .perfil-titulo {
+    font-size: 18px;
+  }
+}
+
+/* CELULARES GRANDES (max 600px) */
+@media (max-width: 600px) {
+  body {
+    padding: 25px;
+  }
+
+  .tarjeta-perfil {
+    max-width: 330px;
+    padding: 32px 22px;
+  }
+
+  .perfil-imagen {
+    width: 130px;
+    height: 130px;
+  }
+
+  .btn-contactar {
+    width: 100%;
+    font-size: 16px;
+    padding: 14px 30px;
+  }
+}
+
+/* CELULARES PEQUEÑOS (max 480px) */
+@media (max-width: 480px) {
+  body {
+    padding: 15px;
+  }
+
+  .tarjeta-perfil {
+    padding: 28px 18px;
+    max-width: 300px;
+  }
+
+  .perfil-nombre {
+    font-size: 22px;
+  }
+
+  .perfil-titulo {
+    font-size: 16px;
+  }
+
+  .perfil-descripcion {
+    font-size: 14px;
+    line-height: 1.6;
+  }
+
+  .perfil-imagen {
+    width: 110px;
+    height: 110px;
+  }
+
+  .btn-contactar {
+    font-size: 15px;
+    padding: 12px 24px;
+    width: 100%;
+  }
+}
+
+/* CELULARES MUY PEQUEÑOS (max 360px) */
+@media (max-width: 360px) {
+  .tarjeta-perfil {
+    max-width: 280px;
+    padding: 24px 16px;
+  }
+
+  .perfil-nombre {
+    font-size: 20px;
+  }
+
+  .perfil-imagen {
+    width: 100px;
+    height: 100px;
+  }
+}

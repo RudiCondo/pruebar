@@ -282,6 +282,6 @@ input[type="range"]::-webkit-slider-thumb {
     
     .box {
         width: 100%;
-        max-width: 200px;
+        max-width: 150px;
     }
 }

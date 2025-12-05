@@ -9,15 +9,21 @@
 }
 
 :root {
-    --color-primary: #667eea;
-    --color-primary-dark: #5568d3;
-    --color-secondary: #764ba2;
-    --color-text: #2d3748;
-    --color-text-light: #718096;
-    --color-bg: #ffffff;
-    --color-bg-alt: #f7fafc;
-    --color-border: #e2e8f0;
-    
+    /* Paleta Verde Fresh */
+    --color-primary: #10B981;        /* Verde esmeralda */
+    --color-primary-dark: #059669;   /* Verde oscuro */
+    --color-secondary: #34D399;      /* Verde lima suave */
+
+    /* Texto y fondos */
+    --color-text: #1F2937;           /* Gris oscuro */
+    --color-text-light: #6B7280;     /* Gris suave */
+    --color-bg: #ffffff;             /* Fondo claro */
+    --color-bg-alt: #F0FDF4;         /* Verde ultra suave */
+
+    /* Bordes */
+    --color-border: #D1D5DB;         /* Gris claro */
+
+    /* Otros */
     --nav-height: 70px;
     --transition: all 0.3s ease;
 }

@@ -1,0 +1,309 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    /* Fondo: Color oscuro o textura de ladrillo/concreto (simulado) */
+    background: #1a1a1a; 
+    min-height: 100vh;
+    padding: 2rem;
+    /* Fuente audaz (usa 'Impact' o 'Bebas Neue' si están disponibles) */
+    font-family: Impact, Haettenschweiler, 'Arial Narrow Bold', sans-serif;
+    color: #f0f0f0; /* Texto claro */
+}
+
+.container {
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+h1 {
+    color: #ff00ff; /* Color Neón/Graffiti */
+    text-align: center;
+    margin-bottom: 0.5rem;
+    font-size: 3rem;
+    /* Sombra de graffiti (Offset/doble color) */
+    text-shadow: 
+        5px 5px 0px #00ffff, /* Cian como sombra base */
+        -3px -3px 0px #ff00ff, /* Pink como borde superior */
+        0 0 10px rgba(0, 0, 0, 0.9); /* Sombra oscura */
+    letter-spacing: 3px;
+}
+
+.subtitle {
+    color: #ffd700; /* Amarillo brillante */
+    text-align: center;
+    margin-bottom: 3rem;
+    font-size: 1.2rem;
+    font-style: italic;
+    letter-spacing: 1px;
+}
+
+.cards-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+    gap: 2rem;
+    margin-bottom: 2rem;
+}
+
+/* ==============================
+   CARD CONTAINER
+   ============================== */
+.card {
+    position: relative;
+    
+    /* Fondo: Papel pegado o cartel */
+    background: #f7f7f7; 
+    
+    /* Bordes irregulares simulados (menos redondeados) */
+    border-radius: 5px;
+    overflow: hidden;
+    
+    /* Borde grueso pintado (simulado con box-shadow) */
+    border: 3px solid #ff4500; /* Naranja fuerte */
+    box-shadow: 
+        10px 10px 0px 0px #000000, /* Sombra grande y sólida (efecto 3D block) */
+        0 0 0 5px #f7f7f7; /* Pequeño borde interno blanco */
+        
+    /* Ligeramente rotada para un look más caótico */
+    transform: rotate(1deg); 
+    
+    transition: all 0.3s ease;
+}
+
+.card:hover {
+    transform: rotate(0deg) translateY(-5px) scale(1.02);
+    /* El hover debe ser agresivo */
+    box-shadow: 
+        15px 15px 0px 0px #ff00ff, /* Pink neón al pasar el mouse */
+        0 0 0 5px #f7f7f7;
+}
+/* ==============================
+   BADGE POSICIONADO
+   ============================== */
+.badge {
+    position: absolute;
+    
+    top: 0.5rem; /* Más cerca del borde */
+    right: 0.5rem;
+    
+    z-index: 10;
+    
+    padding: 0.4rem 0.9rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    
+    /* Bordes puntiagudos (menos redondeados) */
+    border-radius: 2px; 
+    
+    text-transform: uppercase;
+    letter-spacing: 2px;
+    
+    /* Borde negro duro (Estilo Sticker) */
+    border: 2px solid #000;
+    box-shadow: 4px 4px 0px #000; /* Sombra sólida */
+    
+    animation: badgeBounce 0.5s ease;
+    transform: rotate(5deg); /* Ligeramente inclinado */
+}
+
+@keyframes badgeBounce {
+    0% {
+        transform: scale(0);
+    }
+    50% {
+        transform: scale(1.1);
+    }
+    100% {
+        transform: scale(1);
+    }
+}
+
+/* Variantes de badges */
+.badge-new {
+    background: linear-gradient(135deg, #00ff99 0%, #38ef7d 100%); /* Neón Verde */
+    color: #1a1a1a;
+}
+
+.badge-discount {
+    background: linear-gradient(135deg, #ff00ff 0%, #ff4500 100%); /* Pink a Naranja */
+    color: white;
+}
+
+.badge-hot {
+    background: linear-gradient(135deg, #fa709a 0%, #fee140 100%);
+    color: #333;
+    animation: badgePulse 2s ease-in-out infinite;
+}
+
+@keyframes badgePulse {
+    0%, 100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(1.05);
+    }
+}
+
+.badge-limited {
+    background: linear-gradient(135deg, #ff6b6b 0%, #ee5a6f 100%);
+    color: white;
+    font-size: 0.65rem;
+    padding: 0.4rem 0.8rem;
+    animation: badgeShake 3s ease-in-out infinite;
+}
+
+@keyframes badgeShake {
+    0%, 100% {
+        transform: rotate(0deg);
+    }
+    25% {
+        transform: rotate(-5deg);
+    }
+    75% {
+        transform: rotate(5deg);
+    }
+}
+
+.badge-premium {
+    background: linear-gradient(135deg, #2c3e50 0%, #34495e 100%);
+    color: #ffd700;
+    border: 2px solid #ffd700;
+}
+
+.badge-bestseller {
+    background: linear-gradient(135deg, #ffd89b 0%, #19547b 100%);
+    color: white;
+}
+
+/* ==============================
+   CARD IMAGE
+   ============================== */
+.card-image {
+    width: 100%;
+    height: 200px;
+    overflow: hidden;
+    position: relative;
+}
+
+.card-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transition: transform 0.3s ease;
+}
+
+.card:hover .card-image img {
+    transform: scale(1.1);
+}
+
+/* ==============================
+   CARD CONTENT
+   ============================== */
+.card-content {
+    padding: 1.5rem;
+}
+
+.card-content h3 {
+    color: #ff4500; /* Naranja de choque */
+    text-shadow: 1px 1px 0 #000;
+}
+.card-content p {
+    color: #333;
+    font-family: sans-serif; /* Usamos una fuente más legible aquí */
+}
+
+/* ==============================
+   CARD FOOTER
+   ============================== */
+.card-footer {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding-top: 1rem;
+    border-top: 1px solid #eee;
+}
+
+.price {
+    font-size: 1.5rem;
+    font-weight: bold;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+}
+
+.btn {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    padding: 0.7rem 1.5rem;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: all 0.3s ease;
+}
+
+.btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.btn:active {
+    transform: translateY(0);
+}
+
+/* ==============================
+   RESPONSIVE
+   ============================== */
+@media (max-width: 768px) {
+    body {
+        padding: 1rem;
+    }
+    
+    h1 {
+        font-size: 2rem;
+    }
+    
+    .cards-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+    }
+    
+    .badge {
+        top: 0.7rem;
+        right: 0.7rem;
+        font-size: 0.7rem;
+        padding: 0.4rem 0.8rem;
+    }
+    
+    .badge-discount {
+        font-size: 0.9rem;
+        padding: 0.5rem 1rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .card-content {
+        padding: 1rem;
+    }
+    
+    .card-content h3 {
+        font-size: 1.1rem;
+    }
+    
+    .card-content p {
+        font-size: 0.9rem;
+    }
+    
+    .price {
+        font-size: 1.3rem;
+    }
+    
+    .btn {
+        padding: 0.6rem 1.2rem;
+        font-size: 0.9rem;
+    }
+}

@@ -604,3 +604,45 @@ a:hover {
         padding: var(--spacing-md);
     }
 }
+
+/* Botón hamburguesa */
+.nav-toggle {
+    display: none; /* Solo se verá en móvil */
+    font-size: 2rem;
+    background: none;
+    border: none;
+    color: var(--color-primary-neon);
+    cursor: pointer;
+}
+
+/* Ocultamos el menú en móviles inicialmente */
+.main-nav {
+    transition: max-height 0.3s ease-in-out;
+}
+
+.main-nav ul {
+    flex-direction: row;
+}
+
+@media (max-width: 768px) {
+    .nav-toggle {
+        display: block;
+    }
+
+    .main-nav {
+        width: 100%;
+        max-height: 0;
+        overflow: hidden;
+    }
+
+    .main-nav ul {
+        flex-direction: column;
+        gap: var(--spacing-sm);
+        text-align: center;
+    }
+
+    /* Clase para abrir el menú */
+    .main-nav.active {
+        max-height: 500px; /* Suficiente para mostrar los items */
+    }
+}

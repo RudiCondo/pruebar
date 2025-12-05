@@ -547,3 +547,130 @@ Usa box-sizing: border-box globalmente:
     font-weight: 900;
     text-shadow: 0 0 5px rgba(165, 0, 0, 0.8); /* Efecto de brillo de sangre */
 }
+
+/* =====================================
+   RESPONSIVE MEJORADO
+   ===================================== */
+
+/* PANTALLAS GRANDES (max 1200px) */
+@media (max-width: 1200px) {
+    .container {
+        padding: 0 1.5rem;
+    }
+}
+
+/* TABLETS HORIZONTALES (max 1024px) */
+@media (max-width: 1024px) {
+    h1 {
+        font-size: 2.2rem;
+    }
+
+    .demo-section {
+        padding: 1.5rem;
+    }
+
+    .comparison-grid {
+        grid-template-columns: 1fr;
+    }
+}
+
+/* TABLETS VERTICALES (max 768px) */
+@media (max-width: 768px) {
+
+    h1 {
+        font-size: 1.8rem;
+    }
+
+    .subtitle {
+        font-size: 1rem;
+    }
+
+    .demo-section {
+        padding: 1.25rem;
+    }
+
+    .examples-grid,
+    .cards-demo,
+    .bg-demo {
+        grid-template-columns: 1fr;
+    }
+
+    .buttons-demo {
+        flex-direction: column;
+        gap: 0.75rem;
+    }
+
+    .btn {
+        width: 100%;
+        text-align: center;
+    }
+
+    .input {
+        max-width: 100%;
+    }
+}
+
+/* CELULARES GRANDES (max 600px) */
+@media (max-width: 600px) {
+
+    body {
+        padding: 1rem;
+    }
+
+    h1 {
+        font-size: 1.6rem;
+    }
+
+    .demo-section {
+        padding: 1rem;
+    }
+
+    .box,
+    .card,
+    .bg-box {
+        border-radius: 6px;
+    }
+
+    .content,
+    .inner-content {
+        padding: 0.75rem;
+    }
+
+    .btn-large {
+        padding: 14px 24px;
+    }
+
+    .card-spacious {
+        padding: 24px;
+    }
+}
+
+/* CELULARES PEQUEÑOS (max 480px) */
+@media (max-width: 480px) {
+
+    h1 {
+        font-size: 1.4rem;
+        margin-bottom: 0.75rem;
+    }
+
+    .subtitle {
+        font-size: 0.9rem;
+    }
+
+    .demo-section h2 {
+        font-size: 1.4rem;
+    }
+
+    .demo-section h3 {
+        font-size: 1.1rem;
+    }
+
+    .btn {
+        font-size: 0.9rem;
+        padding: 10px 16px;
+    }
+
+    .input {
+        font-size: 0.9rem;
+    }
+}

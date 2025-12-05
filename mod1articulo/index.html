@@ -14,18 +14,25 @@
 <body>
     <!-- Header del sitio -->
     <header class="site-header">
-        <div class="container">
-            <h1 class="site-title">DevBlog</h1>
-            <nav class="main-nav">
-                <ul>
-                    <li><a href="#inicio">Inicio</a></li>
-                    <li><a href="#articulos">Artículos</a></li>
-                    <li><a href="#sobre-mi">Sobre Mí</a></li>
-                    <li><a href="#contacto">Contacto</a></li>
-                </ul>
-            </nav>
-        </div>
-    </header>
+    <div class="container">
+        <h1 class="site-title">DevBlog</h1>
+
+        <!-- Botón hamburguesa -->
+        <button class="nav-toggle" id="nav-toggle" aria-label="Abrir menú">
+            &#9776; <!-- Este es el icono de hamburguesa -->
+        </button>
+
+        <nav class="main-nav" id="main-nav">
+            <ul>
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#articulos">Artículos</a></li>
+                <li><a href="#sobre-mi">Sobre Mí</a></li>
+                <li><a href="#contacto">Contacto</a></li>
+            </ul>
+        </nav>
+    </div>
+</header>
+
 
     <!-- Contenedor principal -->
     <div class="page-container">
@@ -223,5 +230,14 @@
             <p>&copy; 2025 DevBlog. Todos los derechos reservados.</p>
         </div>
     </footer>
+    <script>
+    const navToggle = document.getElementById('nav-toggle');
+    const mainNav = document.getElementById('main-nav');
+
+    navToggle.addEventListener('click', () => {
+        mainNav.classList.toggle('active');
+    });
+</script>
+
 </body>
 </html>
