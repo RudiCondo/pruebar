@@ -67,11 +67,15 @@ code {
    ===================================== */
 
 .gallery {
-    /* Usamos un tamaño de columna ligeramente mayor para desktop */
     display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); 
+    /* Usamos auto-fill para mejor control en escritorio */
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
     gap: var(--spacing);
     margin-bottom: 4rem;
+    
+    /* ⭐ LA MAGIA: Dense Packing */
+    /* Esto rellena los huecos vacíos automáticamente reordenando los items */
+    grid-auto-flow: dense;
 }
 
 /* =====================================
@@ -83,28 +87,29 @@ code {
     border-radius: 12px;
     overflow: hidden;
     cursor: pointer;
-    /* Sombra más sutil */
     box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1); 
     transition: var(--transition);
     
+    /* Por defecto (móvil/base) son cuadrados */
     aspect-ratio: 1 / 1;
 }
 
 .gallery-item:hover {
-    transform: translateY(-10px); /* Efecto 3D más pronunciado */
-    box-shadow: 0 15px 30px rgba(0, 0, 0, 0.2);
+    transform: translateY(-5px);
+    box-shadow: 0 20px 40px rgba(0,0,0,0.2);
+    z-index: 2; /* Eleva la imagen sobre las demás */
 }
 
 .gallery-item img {
     width: 100%;
     height: 100%;
-    object-fit: cover; 
+    object-fit: cover; /* Asegura que la imagen llene la caja sin deformarse */
     display: block;
-    transition: var(--transition);
+    transition: transform 0.5s ease;
 }
 
 .gallery-item:hover img {
-    transform: scale(1.05); /* Escala más suave en hover */
+    transform: scale(1.1); /* Escala más suave en hover */
 }
 
 /* Overlay */

@@ -1,0 +1,283 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: #f0f2f5;
+}
+
+/* ================================
+   DASHBOARD LAYOUT (ESCRITORIO)
+================================ */
+.dashboard {
+    display: grid;
+    grid-template-areas:
+        "sidebar header"
+        "sidebar main";
+    grid-template-columns: 250px 1fr;
+    grid-template-rows: 70px 1fr;
+    height: 100vh;
+}
+
+/* ================================
+   SIDEBAR
+================================ */
+.sidebar {
+    grid-area: sidebar;
+    background: linear-gradient(180deg, #1a1a2e 0%, #16213e 100%);
+    color: white;
+    overflow-y: auto;
+    transition: left 0.3s ease;
+    z-index: 200;
+}
+
+.sidebar-header {
+    padding: 1.5rem;
+    border-bottom: 1px solid rgba(255,255,255,0.1);
+}
+
+.sidebar-nav {
+    padding: 1rem 0;
+}
+
+.nav-item {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 1rem 1.5rem;
+    color: rgba(255,255,255,0.8);
+    text-decoration: none;
+    transition: all 0.3s ease;
+}
+
+.nav-item:hover {
+    background: rgba(255,255,255,0.1);
+    color: white;
+}
+
+.nav-item.active {
+    background: rgba(0,173,181,0.2);
+    color: #00adb5;
+    border-left: 4px solid #00adb5;
+}
+
+/* ================================
+   OVERLAY PARA MÓVILES
+================================ */
+.overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0,0,0,0.5);
+    display: none;
+    z-index: 150;
+}
+
+.overlay.show {
+    display: block;
+}
+
+/* ================================
+   HEADER
+================================ */
+.header {
+    grid-area: header;
+    background: white;
+    padding: 0 2rem;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+    z-index: 100;
+}
+
+.menu-toggle {
+    font-size: 1.8rem;
+    background: none;
+    border: none;
+    cursor: pointer;
+    display: none; /* oculto en PC */
+}
+
+.header-search input {
+    padding: 0.7rem 1.5rem;
+    border-radius: 25px;
+    border: 1px solid #ddd;
+}
+
+.header-actions {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+}
+
+.icon-btn {
+    background: none;
+    border: none;
+    font-size: 1.4rem;
+    position: relative;
+}
+
+.badge {
+    position: absolute;
+    top: -5px;
+    right: -5px;
+    background: red;
+    padding: 2px 6px;
+    border-radius: 10px;
+    color: white;
+    font-size: 0.7rem;
+}
+
+.user-profile {
+    display: flex;
+    align-items: center;
+    gap: .5rem;
+}
+
+/* ================================
+   MAIN CONTENT
+================================ */
+.main-content {
+    grid-area: main;
+    padding: 2rem;
+}
+
+.page-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 1.5rem;
+}
+
+.btn-primary {
+    background: #00adb5;
+    border: none;
+    padding: 0.6rem 1.4rem;
+    color: white;
+    border-radius: 6px;
+}
+
+/* ================================
+   CARDS Y GRIDS
+================================ */
+.stats-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+}
+
+.stat-card {
+    background: white;
+    border-radius: 10px;
+    padding: 1.5rem;
+    display: flex;
+    gap: 1rem;
+    align-items: center;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+}
+
+.stat-blue   { border-left: 4px solid #007bff; }
+.stat-green  { border-left: 4px solid #28a745; }
+.stat-orange { border-left: 4px solid #fd7e14; }
+.stat-purple { border-left: 4px solid #6f42c1; }
+
+.content-grid {
+    display: grid;
+    grid-template-columns: 2fr 1fr;
+    gap: 1.5rem;
+}
+
+.card {
+    background: white;
+    padding: 1.5rem;
+    border-radius: 10px;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.06);
+}
+
+.card-full {
+    grid-column: span 2;
+}
+
+.data-table {
+    width: 100%;
+    margin-top: 1rem;
+    border-collapse: collapse;
+}
+
+.data-table th,
+.data-table td {
+    padding: 0.7rem;
+    border-bottom: 1px solid #eee;
+}
+
+/* ================================
+   RESPONSIVE
+================================ */
+
+/* Tablets (max-width: 992px) */
+@media (max-width: 992px) {
+    .stats-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+
+    .card-full {
+        grid-column: 1;
+    }
+}
+
+/* Móviles (max-width: 768px) */
+@media (max-width: 768px) {
+
+    /* Reorganizar layout */
+    .dashboard {
+        grid-template-areas:
+            "header"
+            "main";
+        grid-template-columns: 1fr;
+    }
+
+    /* Sidebar oculto fuera de pantalla */
+    .sidebar {
+        position: fixed;
+        left: -260px;
+        top: 0;
+        height: 100%;
+        width: 250px;
+    }
+
+    /* Sidebar visible */
+    .sidebar.show {
+        left: 0;
+    }
+
+    /* Mostrar botón hamburguesa */
+    .menu-toggle {
+        display: block;
+    }
+
+    /* Ajustar el header */
+    .header {
+        padding: 0 1rem;
+    }
+
+    /* Grid de tarjetas: 1 columna */
+    .stats-grid {
+        grid-template-columns: 1fr;
+    }
+
+    /* Actividad / productos en una columna */
+    .content-grid {
+        grid-template-columns: 1fr;
+    }
+}
