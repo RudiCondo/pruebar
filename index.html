@@ -1,94 +1,241 @@
 <!DOCTYPE html>
 <html lang="es">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Mis Proyectos | Ｖａｐｏｒｗａｖｅ</title>
-    <link rel="stylesheet" href="styles-vaporwave.css">
-    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Press+Start+2P&display=swap" rel="stylesheet">
+    <title>Portafolio - RudiDev | Retro Frontend</title>
+    <link rel="stylesheet" href="styles.css">
+    <link href="https://fonts.googleapis.com/css2?family=Major+Mono+Display&family=Press+Start+2P&display=swap"
+        rel="stylesheet">
 </head>
+
 <body>
-    <div class="vaporwave-bg"></div> <div class="container">
+
+    <!-- Fondo Animado -->
+    <div class="vaporwave-bg"></div>
+
+    <!-- NAVBAR -->
+    <nav class="navbar">
+        <h3 class="logo">ＲｕｄｉＤｅｖ</h3>
+
+        <!-- Botón hamburguesa -->
+        <div class="hamburger" id="hamburger">☰</div>
+
+        <ul id="nav-menu">
+            <li><a href="#inicio">Inicio</a></li>
+            <li><a href="#proyectos">Proyectos</a></li>
+            <li><a href="#habilidades">Habilidades</a></li>
+            <li><a href="#mod1">Modulo 1</a></li>
+            <li><a href="#mod2">Modulo 2</a></li>
+            <li><a href="#mod3">Modulo 3</a></li>
+            <li><a href="#mod4">Modulo 4</a></li>
+            <li><a href="#mod5">Modulo 5</a></li>
+            <li><a href="https://github.com/tunombre" target="_blank">GitHub</a></li>
+        </ul>
+    </nav>
+
+    <!-- CONTENEDOR PRINCIPAL -->
+    <div class="container fade-in" id="inicio">
+
+        <!-- HERO HEADER -->
         <header class="main-header">
-            <h1>Ｐｒｏｙｅｃｔｏｓ</h1>
-            <h2>Selecciona tu ｄｅｓｔｉｎｏ</h2>
+            <h1>Ｈｏｌａ， Ｓｏｙ <br> Ｒｕｄｉ 🚀</h1>
+            <h2>Desarrollador Web con estilo Retro-Futurista</h2>
         </header>
 
-        <main class="projects-grid">
-            <a href="mod1articulo/index.html" class="project-card neon-blue">
-                <div class="card-content">
-                    <span class="card-icon">📰</span>
-                    <h3>Artículo</h3>
-                    <p>Una publicación futurista y moderna.</p>
-                </div>
-            </a>
+        <!-- SECCIÓN DE HABILIDADES (NUEVO) -->
+        <section id="habilidades">
+            <h2 class="section-title">Ｈａｂｉｌｉｄａｄｅｓ</h2>
+            <div class="skills-container">
+                <span class="skill-tag">HTML5</span>
+                <span class="skill-tag">CSS3</span>
+                <span class="skill-tag">JavaScript</span>
+                <span class="skill-tag">Responsive Design</span>
+                <span class="skill-tag">UI/UX</span>
+                <span class="skill-tag">Vaporwave Aesthetics</span>
+            </div>
+        </section>
+
+        <!-- SECCIÓN DE PROYECTOS -->
+        <section id="proyectos">
+            <h2 class="section-title">Ｐｒｏｙｅｃｔｏｓ</h2>
             
-            <a href="mod1navegacion/index.html" class="project-card neon-purple">
-                <div class="card-content">
-                    <span class="card-icon">⚙️</span>
-                    <h3>Navegación</h3>
-                    <p>Explora un menú de estilo medieval-punk.</p>
-                </div>
-            </a>
 
-            <a href="mod1tarjeta-perfil/index.html" class="project-card neon-pink">
-                <div class="card-content">
-                    <span class="card-icon">👤</span>
-                    <h3>Tarjeta de Perfil</h3>
-                    <p>Tu tarjeta de perfil en el ciberespacio.</p>
-                </div>
-            </a>
-            <a href="mod2paddings/index.html" class="project-card neon-pink">
-                <div class="card-content">
-                    <span class="card-icon">⏹️</span>
-                    <h3>Paddings</h3>
-                    <p>Espaciado interno del Box Model.</p>
-                </div>
-            </a>
-        
-            <a href="mod2borders/index.html" class="project-card neon-blue">
-                <div class="card-content">
-                    <span class="card-icon">📐</span>
-                    <h3>Bordes</h3>
-                    <p>Estilos y radios del Box Model.</p>
-                </div>
-            </a>
-        
-            <a href="mod2boxsizing/index.html" class="project-card neon-purple">
-                <div class="card-content">
-                    <span class="card-icon">📦</span>
-                    <h3>Box Sizing</h3>
-                    <p>Cálculo del tamaño de los elementos.</p>
-                </div>
-            </a>
-        
-            <a href="mod2card/index.html" class="project-card neon-pink">
-                <div class="card-content">
-                    <span class="card-icon">💳</span>
-                    <h3>Card Layout</h3>
-                    <p>Diseño de tarjetas flexibles.</p>
-                </div>
-            </a>
-        
-            <a href="mod3modal/index.html" class="project-card neon-blue">
-                <div class="card-content">
-                    <span class="card-icon">👁️‍🗨️</span>
-                    <h3>Ventana Modal</h3>
-                    <p>Despliegue de diálogos de usuario.</p>
-                </div>
-            </a>
-            <a href="mod3navbar-stiky/index.html" class="project-card neon-purple">
-                <div class="card-content">
-                    <span class="card-icon">🍻</span>
-                    <h3>NavBar - Stiky</h3>
-                    <p>Menu de cabecera con direccionamiento interno.</p>
-                </div>
-            </a>
-        </main>
+            <div class="projects-grid">
+                <a href="mod1articulo/index.html" class="project-card neon-blue" id="mod1">
+                    <div class="card-content">
+                        <span class="card-icon">📰</span>
+                        <h3>Artículo Mod1</h3>
+                        <p>Diseño editorial moderno.</p>
+                    </div>
+                </a>
 
+                <a href="mod1navegacion/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon">⚙️</span>
+                        <h3>Navegación Mod1</h3>
+                        <p>Menús interactivos y dinámicos.</p>
+                    </div>
+                </a>
+
+                <a href="mod1tarjeta-perfil/index.html" class="project-card neon-pink">
+                    <div class="card-content">
+                        <span class="card-icon">👤</span>
+                        <h3>Perfil Mod1</h3>
+                        <p>Identidad digital neón.</p>
+                    </div>
+                </a>
+
+                <a href="mod2paddings/index.html" class="project-card neon-pink"  id="mod2">
+                    <div class="card-content">
+                        <span class="card-icon">⏹️</span>
+                        <h3>Layouts Mod2</h3>
+                        <p>Dominio del Box Model.</p>
+                    </div>
+                </a>
+
+                <a href="mod2borders/index.html" class="project-card neon-blue">
+                    <div class="card-content">
+                        <span class="card-icon">📐</span>
+                        <h3>Estilos Mod2</h3>
+                        <p>Bordes y radios creativos.</p>
+                    </div>
+                </a>
+
+                <a href="mod2boxsizing/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon">📦</span>
+                        <h3>Estructura Mod2</h3>
+                        <p>Control dimensional CSS.</p>
+                    </div>
+                </a>
+
+                <a href="mod2card/index.html" class="project-card neon-pink">
+                    <div class="card-content">
+                        <span class="card-icon">💳</span>
+                        <h3>Tarjetas Mod2</h3>
+                        <p>Componentes flexibles y grid.</p>
+                    </div>
+                </a>
+                
+
+                <a href="mod3modal/index.html" class="project-card neon-blue" id="mod3">
+                    <div class="card-content">
+                        <span class="card-icon">👁️‍🗨️</span>
+                        <h3>Modal Mod3</h3>
+                        <p>Ventanas emergentes JS.</p>
+                    </div>
+                </a>
+
+                <a href="mod3navbar-stiky/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon">⚓</span>
+                        <h3>Sticky Nav Mod3</h3>
+                        <p>Navegación fija inteligente.</p>
+                    </div>
+                </a>
+                <a href="mod3card-badge/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon"> 🃏</span>
+                        <h3>Card Badge Mod3</h3>
+                        <p>Tarjetas Badge.</p>
+                    </div>
+                </a>
+                <a href="mod3hero-overlay/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon"> 🧙‍♂️</span>
+                        <h3>Hero Overlay Mod3</h3>
+                        <p>Overlay Animado.</p>
+                    </div>
+                </a>
+                <a href="mod4dashboard/index.html" class="project-card neon-blue" id="mod4">
+                    <div class="card-content">
+                        <span class="card-icon">💎</span>
+                        <h3>Dashboard Mod4</h3>
+                        <p>Dashboard responsivo.</p>
+                    </div>
+                </a>
+                <a href="mod4gallery-grid/index.html" class="project-card neon-pink">
+                    <div class="card-content">
+                        <span class="card-icon">📺</span>
+                        <h3>GalleryGrid Mod4</h3>
+                        <p>Galeria Grid.</p>
+                    </div>
+                </a>
+                <a href="mod4holy-gray/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon">🎻</span>
+                        <h3>HolyGray Mod4</h3>
+                        <p>HolyGray responsivo.</p>
+                    </div>
+                </a>
+                <a href="mod4navbar-flexbox/index.html" class="project-card neon-blue">
+                    <div class="card-content">
+                        <span class="card-icon">🎷</span>
+                        <h3>NavbarFlexbox Mod4</h3>
+                        <p>Navbar responsivo.</p>
+                    </div>
+                </a>
+                <a href="mod5imagenes-responsive/index.html" class="project-card neon-pink" id="mod5">
+                    <div class="card-content">
+                        <span class="card-icon">🎩</span>
+                        <h3>Imagenes Mod5</h3>
+                        <p>Galeria de imagenes responsivo.</p>
+                    </div>
+                </a>
+                <a href="mod5img-responsiva/index.html" class="project-card neon-purple">
+                    <div class="card-content">
+                        <span class="card-icon">😱</span>
+                        <h3>Img Resonsive Mod5</h3>
+                        <p>Imagenes responsivo.</p>
+                    </div>
+                </a>
+                <a href="mod5tipography/index.html" class="project-card neon-blue">
+                    <div class="card-content">
+                        <span class="card-icon">✒️</span>
+                        <h3>Tipography Mod5</h3>
+                        <p>Tipografía responsiva.</p>
+                    </div>
+                </a>
+            </div>
+        </section>
+
+        <!-- FOOTER -->
         <footer class="main-footer">
-            <p>© ２０２５ ＣｙｂｅｒＤｅｖ</p>
+            <p>© ２０２５ Ｒｕｄｉ – Desarrollado con pasión y ☕</p>
         </footer>
+
     </div>
+
+    <!-- SCRIPT SIMPLE PARA EL MÓVIL -->
+    <script>
+        const hamburger = document.getElementById('hamburger');
+        const navMenu = document.getElementById('nav-menu');
+        const navLinks = document.querySelectorAll('.navbar a');
+
+        // Toggle menú
+        hamburger.addEventListener('click', () => {
+            navMenu.classList.toggle('active');
+
+            // Cambia el icono de hamburguesa a X (opcional visual)
+            if (navMenu.classList.contains('active')) {
+                hamburger.textContent = '✕';
+            } else {
+                hamburger.textContent = '☰';
+            }
+        });
+
+        // Cerrar menú al hacer clic en un enlace
+        navLinks.forEach(link => {
+            link.addEventListener('click', () => {
+                if (navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    hamburger.textContent = '☰';
+                }
+            });
+        });
+    </script>
 </body>
+
 </html>

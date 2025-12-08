@@ -1,0 +1,182 @@
+/* ============================================================
+   ESTILO TEMA DINASTÍA CHINA - TIPOGRAFÍA FLUIDA
+   ============================================================ */
+
+/* ------------------------------------------------------------
+   PALETA & TIPOGRAFÍA
+   ------------------------------------------------------------ */
+
+:root {
+    --bg-color: #faf4e6;        /* pergamino */
+    --text-color: #3b1f0f;      /* tinta marrón */
+    --accent-color: #b30000;    /* rojo imperial */
+    --gold: #d4af37;            /* dorado tradicional */
+
+    /* Tipografía fluida */
+    --fs-body: clamp(1rem, 1vw + 0.9rem, 1.3rem);
+    --fs-h1: clamp(2rem, 4vw + 1.5rem, 3.8rem);
+    --fs-h2: clamp(1.6rem, 3vw + 1rem, 2.8rem);
+    --fs-h3: clamp(1.3rem, 2vw + 1rem, 2rem);
+
+    --lh-tight: 1.15;
+    --lh-body: 1.7;
+}
+
+/* ------------------------------------------------------------
+   RESET
+   ------------------------------------------------------------ */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* ------------------------------------------------------------
+   FONDO ESTILO PERGAMINO
+   ------------------------------------------------------------ */
+body {
+    background: var(--bg-color);
+    color: var(--text-color);
+
+    font-family: "Noto Serif", "Times New Roman", serif;
+    font-size: var(--fs-body);
+    line-height: var(--lh-body);
+
+    padding: 2rem;
+    background-image: url('https://m.media-amazon.com/images/I/510-VfcLzSL._AC_UF894,1000_QL80_.jpg'); /* textura pergamino suave */
+    background-size: cover;
+}
+
+/* ------------------------------------------------------------
+   CONTENEDOR CENTRAL
+   ------------------------------------------------------------ */
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+
+    background: rgba(255, 253, 247, 0.85);
+    border: 4px solid var(--gold);
+    border-radius: 12px;
+
+    box-shadow: 0 0 20px rgba(120, 90, 40, 0.2);
+}
+
+/* ------------------------------------------------------------
+   TÍTULOS (ESTILO CHINO)
+   ------------------------------------------------------------ */
+h1, h2, h3, h4 {
+    font-family: "Noto Serif SC", serif; /* tipografía china serif */
+    font-weight: 900;
+    color: var(--accent-color);
+    line-height: var(--lh-tight);
+    margin-bottom: 0.7em;
+    letter-spacing: 1px;
+}
+
+/* H1 con decoración */
+h1 {
+    font-size: var(--fs-h1);
+    text-align: center;
+    padding-bottom: 0.5em;
+    border-bottom: 4px double var(--gold);
+}
+
+/* Subtítulos */
+h2 {
+    font-size: var(--fs-h2);
+    color: #8a0303;
+}
+
+h3 {
+    font-size: var(--fs-h3);
+    color: #7a1b00;
+}
+
+/* ------------------------------------------------------------
+   TEXTO
+   ------------------------------------------------------------ */
+.subtitle {
+    font-size: 1.2em;
+    text-align: center;
+    color: #7a1b00;
+    opacity: 0.8;
+    margin-bottom: 1rem;
+    font-style: italic;
+}
+
+p {
+    margin-bottom: 1.5em;
+    max-width: 70ch;
+}
+
+/* ------------------------------------------------------------
+   BLOCKQUOTE ESTILO ROLLO CHINO
+   ------------------------------------------------------------ */
+blockquote {
+    margin: 2rem 0;
+    padding: 1.5rem;
+
+    background: #fff7e1;
+    border-left: 8px solid var(--accent-color);
+    border-right: 8px solid var(--gold);
+
+    border-radius: 4px;
+    font-style: italic;
+    font-size: 1.15em;
+
+    box-shadow: inset 0 0 10px rgba(120, 90, 40, 0.2);
+}
+
+/* ------------------------------------------------------------
+   CODE
+   ------------------------------------------------------------ */
+code {
+    background: #ffecc2;
+    border: 1px solid #d4af37;
+    padding: 0.2em 0.4em;
+    border-radius: 4px;
+    font-size: 0.9em;
+}
+
+/* ------------------------------------------------------------
+   SEPARADOR ESTILO ORIENTAL
+   ------------------------------------------------------------ */
+hr {
+    border: 0;
+    height: 3px;
+    margin: 3rem 0;
+
+    background: repeating-linear-gradient(
+        to right,
+        var(--gold),
+        var(--gold) 10px,
+        transparent 10px,
+        transparent 20px
+    );
+}
+
+/* ------------------------------------------------------------
+   RESPONSIVE
+   ------------------------------------------------------------ */
+
+/* Móviles pequeños */
+@media (max-width: 480px) {
+    body {
+        padding: 1rem;
+    }
+    .container {
+        padding: 1rem;
+        border-width: 3px;
+    }
+    blockquote {
+        font-size: 1rem;
+        padding: 1rem;
+    }
+}
+
+/* Tablets */
+@media (max-width: 768px) {
+    h1 { font-size: clamp(1.8rem, 4vw + 1rem, 3rem); }
+    h2 { font-size: clamp(1.4rem, 3vw + 0.8rem, 2.2rem); }
+}
