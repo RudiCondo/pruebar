@@ -1,0 +1,144 @@
+/* CSS Variables for Premium Theme */
+:root {
+    --bg-color: #111111;
+    --card-bg: #1e1e1e;
+    --text-primary: #ffffff;
+    --text-secondary: #a0a0a0;
+    --accent: #ff0055;
+    --gap: 20px;
+    --radius: 16px;
+    --font-main: 'Outfit', sans-serif;
+}
+
+body {
+    background-color: var(--bg-color);
+    color: var(--text-primary);
+    font-family: var(--font-main);
+    margin: 0;
+    padding: 0;
+    line-height: 1.6;
+}
+
+/* Header Styling */
+.main-header {
+    text-align: center;
+    padding: 60px 20px;
+    background: radial-gradient(circle at center, #2a2a2a 0%, #111 70%);
+}
+
+.main-header h1 {
+    font-size: 3rem;
+    font-weight: 600;
+    margin: 0 0 10px 0;
+    background: linear-gradient(45deg, #fff, #888);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.main-header p {
+    color: var(--text-secondary);
+    font-size: 1.1rem;
+}
+
+/* Masonry Grid Setup */
+.masonry-wrapper {
+    /* CSS Grid Strength here: Creating the columns */
+    display: grid;
+    /* Responsive columns: min 250px, fill space */
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    /* Row height for granular control */
+    grid-auto-rows: 10px;
+    gap: var(--gap);
+    padding: 20px 40px;
+    max-width: 1400px;
+    margin: 0 auto;
+}
+
+/* The Card (Pin) */
+.pin {
+    background-color: var(--card-bg);
+    border-radius: var(--radius);
+    overflow: hidden;
+    /* Flexbox Strength: Aligning content inside */
+    display: flex;
+    flex-direction: column;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+
+    /* Default spacing while loading */
+    grid-row-end: span 20;
+    opacity: 0;
+    /* Hidden until loaded and placed */
+    animation: fadeIn 0.5s forwards;
+}
+
+.pin:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 24px rgba(0, 0, 0, 0.5);
+}
+
+.pin figure {
+    margin: 0;
+    padding: 0;
+    flex-shrink: 0;
+    /* Image keeps its size */
+}
+
+.pin img {
+    width: 100%;
+    display: block;
+    object-fit: cover;
+    /* Height is auto to maintain aspect ratio - crucial for Masonry look */
+    height: auto;
+}
+
+.pin-content {
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    flex-grow: 1;
+    /* Fills remaining space */
+}
+
+.pin-content h2 {
+    margin: 0 0 8px 0;
+    font-size: 1.2rem;
+    color: var(--text-primary);
+}
+
+.pin-content p {
+    margin: 0;
+    color: var(--text-secondary);
+    font-size: 0.95rem;
+}
+
+.user-meta {
+    margin-top: 15px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.avatar {
+    width: 24px;
+    height: 24px;
+    border-radius: 50%;
+    background: var(--accent);
+}
+
+/* Animation */
+@keyframes fadeIn {
+    to {
+        opacity: 1;
+    }
+}
+
+/* Responsive adjustments */
+@media (max-width: 600px) {
+    .masonry-wrapper {
+        padding: 10px;
+        gap: 10px;
+    }
+}

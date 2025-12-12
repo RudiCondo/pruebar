@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="es" data-theme="light"> 
+<!-- Se define el idioma como español y el atributo data-theme controla el tema actual (light/dark) -->
+
+<head>
+    <meta charset="UTF-8"> <!-- Codificación estándar UTF-8 -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> <!-- Hace el sitio responsive -->
+    <title>Theme Switcher</title> <!-- Título de la pestaña -->
+    <link rel="stylesheet" href="style.css"> <!-- Archivo CSS externo -->
+</head>
+
+<body>
+
+    <!-- Contenedor del interruptor de tema -->
+    <div class="theme-switch-wrapper">
+        
+        <!-- Etiqueta que contiene el switch -->
+        <label class="theme-switch" for="checkbox">
+            
+            <!-- Checkbox oculto, detecta si el usuario activa o no el switch -->
+            <input type="checkbox" id="checkbox" />
+
+            <!-- El diseño visual del switch (círculo deslizante) -->
+            <div class="slider round"></div>
+        </label>
+
+        <!-- Texto junto al interruptor -->
+        <span>Cambiar Tema</span>
+    </div>
+
+    <!-- Tarjeta de información del usuario -->
+    <div class="card">
+
+        <!-- Contenedor del avatar -->
+        <div class="avatar-container">
+            <!-- Imagen del usuario -->
+            <img src="https://i.pravatar.cc/150?img=32" alt="Jane Doe" class="avatar">
+        </div>
+
+        <!-- Nombre del usuario -->
+        <h2>Jane Doe</h2>
+
+        <!-- Rol del usuario -->
+        <p class="role">Frontend Developer</p>
+
+        <!-- Descripción breve -->
+        <p class="desc">Enthusiastic about clean code and user-centric designs.</p>
+        
+        <!-- Botones de acción -->
+        <div class="buttons">
+            <button class="btn btn-outline">Follow</button>
+            <button class="btn btn-outline">Message</button>
+        </div>
+    </div>
+
+    <!-- Archivo JS que maneja el cambio de tema -->
+    <script src="app.js"></script>
+</body>
+</html>

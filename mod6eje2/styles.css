@@ -1,0 +1,31 @@
+/* D:\GENERAL\UNIVERSIDAD\disenoweb2\github\pruebar\mod6eje2\styles.css */
+
+/* Transición para el Sidebar */
+.sidebar {
+    transition: transform 0.3s ease-out;
+    transform: translateX(-100%); /* Oculto por defecto en móvil */
+    /* Altura total de la vista menos la altura del nav (h-16 = 4rem o 64px) */
+    height: calc(100vh - 4rem); 
+    overflow-y: auto; /* Permite scroll dentro del sidebar si hay mucho contenido */
+}
+
+/* Clase para mostrar el sidebar en móviles (manejada por JS) */
+.sidebar.open {
+    transform: translateX(0);
+}
+
+/* Comportamiento en Desktop (lg y más) */
+@media (min-width: 1024px) {
+    .sidebar {
+        transform: translateX(0); /* Siempre visible en Desktop */
+        position: relative; /* Vuelve a ser parte del flujo */
+        top: 0;
+        height: auto;
+        box-shadow: none; 
+    }
+}
+
+/* Clase para bloquear el scroll del body en móvil (manejada por JS) */
+.body-no-scroll {
+    overflow: hidden;
+}

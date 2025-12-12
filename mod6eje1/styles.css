@@ -1,0 +1,153 @@
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+footer a {
+    transition: opacity 0.3s;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+.hero-section {
+    /* Mantén tu gradiente de fondo */
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.min-vh-75 {
+    /* Mantenemos la altura mínima para pantallas grandes */
+    min-height: 75vh;
+}
+
+/* --- ADICIÓN CLAVE PARA RESPONSIVIDAD --- */
+/* Media Query para dispositivos pequeños (por ejemplo, menos de 768px, que es el punto de quiebre de Bootstrap 'md') */
+@media (max-width: 991.98px) {
+    /* Ajusta la imagen de perfil en pantallas pequeñas */
+    .hero-section img {
+        /* Reduce el tamaño de la imagen en dispositivos pequeños */
+        max-width: 250px; 
+        margin-top: 30px; /* Agrega espacio superior para separarla del texto */
+    }
+
+    /* Centra el contenido de la Hero Section en dispositivos pequeños */
+    .hero-section .col-lg-6:first-child {
+        text-align: center;
+    }
+
+    /* Centra los botones que estaban usando 'd-flex gap-3' */
+    .hero-section .d-flex {
+        justify-content: center !important; 
+    }
+    
+    /* Para evitar que la sección Hero sea demasiado alta en móviles */
+    .min-vh-75 {
+        min-height: auto; 
+    }
+}
+/* ------------------------------------------- */
+
+
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+footer a {
+    transition: opacity 0.3s;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
+
+/* Opcional: Estilo para las imágenes de proyectos */
+.card-img-top {
+    object-fit: cover;
+    height: 200px; /* Altura uniforme para todas las imágenes de proyectos */
+}
+/* Definición de colores para el modo oscuro */
+/* Puedes usar variables CSS si deseas un control más granular, 
+   pero por ahora usamos un color fijo para el fondo alterno */
+.bg-dark-subtle {
+    background-color: #212529 !important; /* Un gris muy oscuro */
+}
+
+/* Estilos de la sección HERO */
+.hero-section {
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+}
+
+.min-vh-75 {
+    min-height: 75vh;
+}
+
+/* Estilos para Formularios en Modo Oscuro */
+/* Aplicamos estos estilos al input, ya que Bootstrap por defecto no los invierte */
+#contact .form-control {
+    background-color: #343a40; /* Gris oscuro para el fondo del input */
+    color: #f8f9fa; /* Color blanco claro para el texto */
+    border: 1px solid #495057; /* Borde gris más claro */
+}
+
+#contact .form-control:focus {
+    background-color: #343a40;
+    color: #f8f9fa;
+    border-color: #764ba2; /* Color de enfoque para accesibilidad */
+    box-shadow: 0 0 0 0.25rem rgba(118, 75, 162, 0.5); 
+}
+
+/* Estilos de responsividad (mantenidos) */
+@media (max-width: 991.98px) {
+    .hero-section img {
+        max-width: 250px; 
+        margin-top: 30px;
+    }
+    .hero-section .col-lg-6:first-child {
+        text-align: center;
+    }
+    .hero-section .d-flex {
+        justify-content: center !important; 
+    }
+    .min-vh-75 {
+        min-height: auto; 
+    }
+}
+
+/* Estilos de Tarjetas y Hover (mantenidos) */
+.card {
+    transition: transform 0.3s ease;
+}
+
+.card:hover {
+    transform: translateY(-10px);
+}
+
+.card-img-top {
+    object-fit: cover;
+    height: 200px;
+}
+
+/* Estilos de Footer (mantenidos) */
+footer a {
+    transition: opacity 0.3s;
+}
+
+footer a:hover {
+    opacity: 0.7;
+}
