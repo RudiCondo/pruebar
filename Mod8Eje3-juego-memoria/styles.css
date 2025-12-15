@@ -1,0 +1,125 @@
+/* ===== Tema Vaporwave 2025 ===== */
+@import url('https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Poppins:wght@400;500;600;700;800&display=swap');
+
+:root{
+  --bg-1: #0f0326; /* deep indigo */
+  --bg-2: #2b0b3b; /* dark magenta */
+  --neon-pink: #ff58c7;
+  --neon-cyan: #4fe3ff;
+  --neon-purple: #9a4dff;
+  --glass: rgba(255,255,255,0.06);
+  --card-radius: 18px;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body{
+  font-family: 'Poppins', sans-serif;
+  min-height:100vh;
+  display:flex; justify-content:center; align-items:center; padding:1.5rem;
+  background: radial-gradient(1200px 600px at 10% 20%, rgba(79,227,255,0.06), transparent), linear-gradient(135deg, var(--bg-1) 0%, var(--bg-2) 100%);
+  color: #eaf6ff;
+  background-attachment: fixed;
+}
+
+.container{
+  width:100%; max-width:540px; padding:2.2rem; border-radius:var(--card-radius);
+  background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02));
+  border: 1px solid rgba(255,255,255,0.04);
+  box-shadow: 0 20px 60px rgba(10,6,30,0.6), 0 0 40px rgba(154,77,255,0.06) inset;
+  text-align:center;
+}
+
+.titulo{
+  font-family: 'Press Start 2P', 'Poppins', sans-serif;
+  font-size: 1.6rem;
+  margin-bottom:1.6rem;
+  color: var(--neon-pink);
+  text-shadow: 0 6px 28px rgba(154,77,255,0.14), 0 1px 0 rgba(0,0,0,0.6);
+  letter-spacing: 1px;
+}
+
+.titulo::after{ content:''; display:block; height:6px; width:140px; margin:12px auto 0; border-radius:6px; background: linear-gradient(90deg,var(--neon-pink),var(--neon-cyan)); box-shadow:0 10px 40px rgba(79,227,255,0.08); }
+
+.info-panel{ display:flex; flex-wrap:wrap; justify-content:center; gap:1rem; margin-bottom:1.6rem; padding:1rem; background: linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.015)); border-radius:14px; border:1px solid rgba(255,255,255,0.03); box-shadow: 0 8px 30px rgba(79,227,255,0.02); }
+
+.stat{ display:flex; flex-direction:column; align-items:center; gap:0.2rem; font-size:0.95rem; color: rgba(234,246,255,0.85); }
+.stat-icon{ font-size:1.4rem; filter: drop-shadow(0 6px 18px rgba(154,77,255,0.14)); }
+.stat span:last-child{ font-weight:700; font-size:1.05rem; color: #eaf6ff; }
+
+.btn-reset{ padding:0.9rem 1.6rem; background: linear-gradient(90deg,var(--neon-pink),var(--neon-purple)); color:#071226; border:none; border-radius:12px; font-weight:700; cursor:pointer; box-shadow: 0 12px 40px rgba(154,77,255,0.18); }
+.btn-reset:hover{ transform: translateY(-6px); box-shadow: 0 22px 52px rgba(79,227,255,0.12); }
+.btn-reset:focus{ outline:3px solid rgba(79,227,255,0.14); outline-offset:4px; }
+
+.board{ display:grid; grid-template-columns: repeat(4,1fr); gap:1rem; padding:1.2rem; background: linear-gradient(180deg, rgba(15,3,38,0.12), rgba(43,11,59,0.06)); border-radius:14px; margin-bottom:1rem; }
+
+.card{ aspect-ratio:1; perspective:1000px; cursor:pointer; transition: transform 0.18s; }
+
+.card-inner{ position:relative; width:100%; height:100%; transition: transform 0.6s; transform-style: preserve-3d; }
+
+.card.revealed .card-inner{ transform: rotateY(180deg); }
+
+.card.matched{ opacity:0.9; transform: scale(0.98); box-shadow: 0 10px 28px rgba(79,227,255,0.08); filter: saturate(1.1); }
+
+.card-front, .card-back{ position:absolute; width:100%; height:100%; backface-visibility:hidden; border-radius:12px; display:flex; justify-content:center; align-items:center; box-shadow: 0 10px 30px rgba(0,0,0,0.4); }
+.card-front{ background: linear-gradient(135deg, rgba(0,0,0,0.55), rgba(12,6,34,0.35)); transform: none; }
+.card-back{ background: linear-gradient(135deg, var(--neon-cyan), var(--neon-purple)); color:#071226; font-size:2.6rem; transform: rotateY(180deg); text-shadow: 0 1px 0 rgba(255,255,255,0.5); }
+
+.card .card-back::after{ content:''; position:absolute; inset:0; background: linear-gradient(180deg, rgba(255,255,255,0.06), transparent); border-radius:12px; }
+
+.card.matched .card-back{ background: linear-gradient(90deg, var(--neon-pink), var(--neon-cyan)); color:#071226; box-shadow: 0 20px 50px rgba(79,227,255,0.18); }
+
+/* Modal Victoria */
+.modal{ display:none; position:fixed; inset:0; background: linear-gradient(180deg, rgba(11,4,30,0.6), rgba(6,2,20,0.6)); backdrop-filter: blur(8px); justify-content:center; align-items:center; z-index:1000; }
+
+.modal-content{ width: min(520px, 92%); padding:2.2rem; border-radius:18px; text-align:center; background: linear-gradient(180deg, rgba(255,255,255,0.03), rgba(255,255,255,0.02)); box-shadow: 0 30px 80px rgba(0,0,0,0.6); transform: scale(0.88); animation: modalIn 0.32s ease forwards; border:1px solid rgba(154,77,255,0.06); }
+
+@keyframes modalIn {
+  to {
+    transform: scale(1);
+  }
+}
+
+.modal-content h2{ font-size:1.6rem; margin-bottom:1rem; color: var(--neon-cyan); text-shadow: 0 8px 40px rgba(79,227,255,0.1); font-weight:700; }
+
+.win-stats{ display:flex; flex-direction:column; gap:0.8rem; margin-bottom:1.4rem; font-size:1rem; }
+.win-stats p{ color: rgba(234,246,255,0.9); }
+.win-stats strong{ color: #eaf6ff; font-size:1.25rem; }
+
+.btn-play-again{ padding:0.9rem 2rem; background: linear-gradient(90deg,var(--neon-pink),var(--neon-cyan)); color:#071226; border:none; border-radius:12px; font-weight:700; box-shadow: 0 12px 40px rgba(154,77,255,0.14); }
+.btn-play-again:hover{ transform: translateY(-6px); box-shadow: 0 28px 64px rgba(79,227,255,0.12); }
+
+.btn-play-again {
+  padding: 1.2rem 3rem;
+  background: linear-gradient(135deg, #10b981, #059669);
+  color: white;
+  border: none;
+  border-radius: 20px;
+  font-size: 1.2rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  box-shadow: 0 10px 30px rgba(16, 185, 129, 0.4);
+}
+
+.btn-play-again:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(16, 185, 129, 0.5);
+}
+
+/* Responsive */
+@media (max-width: 700px){
+  .board{ grid-template-columns: repeat(4,1fr); gap:0.9rem; }
+  .titulo{ font-size:1.4rem; }
+}
+
+@media (max-width: 500px){
+  .container{ padding:1.2rem; }
+  .board{ grid-template-columns: repeat(4,1fr); gap:0.6rem; padding:0.9rem; }
+  .card-back{ font-size:1.8rem; }
+  .info-panel{ flex-direction:column; gap:0.8rem; }
+}

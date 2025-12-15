@@ -1,0 +1,109 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+@import url('https://fonts.googleapis.com/css2?family=Share+Tech+Mono&family=Orbitron:wght@400;700&display=swap');
+
+:root{
+    --bg-900: #050606;
+    --panel: #0b1410;
+    --neon: #7CFF00;
+    --acid: #9CFF2F;
+    --hazard: #FFDC33;
+    --muted: #9aa0a6;
+    --glass: rgba(255,255,255,0.03);
+}
+
+body{
+    font-family: 'Share Tech Mono', system-ui, -apple-system, monospace;
+    background: radial-gradient(800px 400px at 10% 10%, rgba(124,255,0,0.04), transparent 8%), linear-gradient(180deg,#071012 0%, #050606 100%);
+    color: var(--muted);
+    min-height: 100vh;
+    padding: 2rem;
+}
+
+
+.container {
+    max-width: 900px;
+    margin: 0 auto;
+}
+
+.tabs-container{
+    background: linear-gradient(180deg, var(--panel), #071011);
+    border-radius: 12px;
+    padding: 2rem;
+    box-shadow: 0 30px 80px rgba(0,0,0,0.7), 0 0 60px rgba(124,255,0,0.03) inset;
+    border: 2px solid rgba(124,255,0,0.06);
+    position:relative;
+}
+
+/* hazard stripe accent */
+.tabs-container::after{ content:''; position:absolute; left:0; bottom:-10px; height:8px; width:100%; background: repeating-linear-gradient(90deg, var(--hazard) 0 12px, #222 12px 24px); opacity:0.08; border-bottom-left-radius:12px; border-bottom-right-radius:12px }
+
+
+h1{ color:var(--hazard); text-align:center; margin-bottom:0.5rem; text-shadow:0 2px 8px rgba(124,255,0,0.06); font-family: 'Orbitron', sans-serif }
+
+.subtitle{ text-align:center; color:var(--muted); margin-bottom:1.6rem; opacity:0.9 }
+
+/* Tab Buttons */
+.tab-buttons{ display:flex; gap:0.6rem; margin-bottom:1.4rem; border-bottom:2px solid rgba(255,255,255,0.03); overflow-x:auto; padding-bottom:0.4rem }
+
+
+.tab-btn{ flex:0 0 auto; padding:0.75rem 1.1rem; background: linear-gradient(180deg, rgba(255,255,255,0.01), transparent); border: 1px solid rgba(255,255,255,0.02); border-radius:8px; cursor:pointer; font-size:0.98rem; font-weight:700; color:var(--muted); transition: transform 0.12s, box-shadow 0.12s; display:flex; align-items:center; gap:0.5rem }
+.tab-btn:hover{ transform: translateY(-3px); box-shadow: 0 8px 30px rgba(124,255,0,0.03) }
+.tab-btn.active{ color:#020800; background: linear-gradient(90deg, var(--neon), var(--acid)); box-shadow: 0 6px 28px rgba(124,255,0,0.18), 0 0 30px rgba(124,255,0,0.12) }
+.tab-btn.active .icon{ filter: drop-shadow(0 2px 6px rgba(0,0,0,0.6)) }
+.tab-btn .icon{ font-size:1.15rem }
+
+.tab-btn:focus{ outline: 3px dashed rgba(124,255,0,0.12); outline-offset:4px }
+
+.tab-btn .icon{ font-size:1.15rem }
+
+/* Tab Content */
+.tab-contents{ position:relative; min-height:380px }
+.tab-content{ display:none; animation: fadeIn 0.36s ease }
+.tab-content.active{ display:block }
+.tab-content h2{ color:var(--neon); text-shadow:0 2px 8px rgba(124,255,0,0.06) }
+.tab-content p{ color:var(--muted) }
+
+
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px); } to { opacity: 1; transform: translateY(0); } }
+
+
+/* Features Grid */
+.features{ display:grid; grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap:1.1rem; margin-top:1.6rem }
+.feature{ text-align:center; padding:1rem; background:linear-gradient(180deg, rgba(255,255,255,0.02), rgba(255,255,255,0.01)); border-radius:8px; border:1px solid rgba(124,255,0,0.04); transition: transform 0.12s, box-shadow 0.12s }
+.feature:hover{ transform: translateY(-6px); box-shadow: 0 18px 40px rgba(124,255,0,0.04) }
+.feature-icon{ font-size:2.4rem; display:block; margin-bottom:0.6rem; color:var(--hazard) }
+.feature h3{ color:var(--neon); margin-bottom:0.4rem }
+.feature p{ font-size:0.9rem; color:var(--muted) }
+
+
+/* Service List */
+.service-list{ list-style:none; margin:1.4rem 0 }
+.service-list li{ padding:0.9rem; margin-bottom:0.65rem; background:transparent; border-radius:6px; border-left:4px solid rgba(124,255,0,0.12); font-size:1.03rem; color:var(--muted); transition: transform 0.12s }
+.service-list li:hover{ transform: translateX(6px); background: linear-gradient(90deg, rgba(124,255,0,0.02), transparent) }
+
+
+/* Stats Grid */
+.stats-grid{ display:grid; grid-template-columns: repeat(auto-fit, minmax(140px, 1fr)); gap:1rem; margin-top:1.6rem }
+.stat-card{ background: linear-gradient(90deg, var(--neon), var(--acid)); color:#021105; padding:1.2rem; border-radius:8px; text-align:center; box-shadow: 0 10px 36px rgba(124,255,0,0.12); border:1px solid rgba(255,255,255,0.02) }
+.stat-number{ font-size:1.6rem; font-weight:900; margin-bottom:0.4rem }
+.stat-label{ font-size:0.82rem; opacity:0.95 }
+
+
+/* Contact Form */
+.contact-form{ max-width:520px; margin:1.6rem auto }
+.form-group{ margin-bottom:1.2rem }
+.form-group label{ display:block; margin-bottom:0.45rem; color:var(--muted); font-weight:700 }
+.form-group input, .form-group textarea{ width:100%; padding:0.75rem; border:1px solid rgba(255,255,255,0.04); border-radius:8px; background:rgba(255,255,255,0.01); color:var(--muted); font-family:inherit; transition: box-shadow 0.12s, border-color 0.12s }
+.form-group input:focus, .form-group textarea:focus{ outline:none; border-color:var(--neon); box-shadow: 0 8px 30px rgba(124,255,0,0.06) }
+.cta-btn{ width:100%; padding:0.9rem 1.6rem; background: linear-gradient(90deg,#8bff3a,#4cff00); color:#042008; border:none; border-radius:10px; font-weight:800; cursor:pointer; box-shadow: 0 12px 36px rgba(124,255,0,0.12); transition: transform 0.12s }
+.cta-btn:hover{ transform: translateY(-4px) }
+
+
+.keyboard-hint{ text-align:center; margin-top:1.6rem; padding:0.9rem; background: linear-gradient(90deg, rgba(124,255,0,0.03), transparent); border-radius:8px; color:var(--neon); font-size:0.9rem }
+
+@media (max-width: 768px){ .tabs-container{ padding:1rem } .tab-btn{ font-size:0.88rem; padding:0.7rem 0.9rem } .tab-btn .icon{ font-size:1rem } .features, .stats-grid{ grid-template-columns:1fr } }
