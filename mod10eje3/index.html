@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Marketplace Premium | Búsqueda Avanzada</title>
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+    <!-- FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+
+    <div class="app-background"></div>
+
+    <div class="main-wrapper">
+        <aside class="sidebar glass-panel">
+            <div class="brand">
+                <i class="fa-solid fa-bolt"></i>
+                <h1>NovaMarket</h1>
+            </div>
+
+            <form id="filterForm">
+                <div class="filter-section">
+                    <h3><i class="fa-solid fa-magnifying-glass"></i> Búsqueda</h3>
+                    <div class="input-wrapper">
+                        <input type="text" id="search" name="q" placeholder="Buscar productos...">
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3><i class="fa-solid fa-layer-group"></i> Categoría</h3>
+                    <select name="category" id="category">
+                        <option value="">Todas las categorías</option>
+                        <option value="electronics">Electrónica</option>
+                        <option value="clothing">Ropa y Moda</option>
+                        <option value="home">Hogar y Deco</option>
+                    </select>
+                </div>
+
+                <div class="filter-section">
+                    <div class="range-header">
+                        <h3><i class="fa-solid fa-tag"></i> Precio Máximo</h3>
+                        <span id="priceLabel" class="price-badge">$1000</span>
+                    </div>
+                    <input type="range" name="maxPrice" id="maxPrice" min="0" max="1000" step="50" value="1000">
+                    <div class="range-labels">
+                        <span>$0</span>
+                        <span>$1000</span>
+                    </div>
+                </div>
+
+                <div class="filter-section">
+                    <h3><i class="fa-solid fa-star"></i> Valoración</h3>
+                    <div class="radio-options">
+                        <label class="radio-card">
+                            <input type="radio" name="rating" value="4">
+                            <span><i class="fa-solid fa-star text-gold"></i> 4+ & up</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="rating" value="3">
+                            <span><i class="fa-solid fa-star text-gold"></i> 3+ & up</span>
+                        </label>
+                        <label class="radio-card">
+                            <input type="radio" name="rating" value="0" checked>
+                            <span>Todos</span>
+                        </label>
+                    </div>
+                </div>
+
+                <button type="button" id="clearBtn" class="btn-reset">
+                    <i class="fa-solid fa-rotate-right"></i> Limpiar Filtros
+                </button>
+            </form>
+        </aside>
+
+        <main class="content-area">
+            <header class="top-bar glass-panel">
+                <div class="results-info">
+                    <h2 id="pageTitle">Resultados</h2>
+                    <span id="resultsCount" class="badge-count">Cargando...</span>
+                </div>
+                <div id="activeFilters" class="active-filters">
+                    <!-- Chips de filtros activos se inyectarán aquí -->
+                </div>
+            </header>
+
+            <div id="resultsGrid" class="products-grid">
+                <!-- Productos aquí -->
+            </div>
+
+            <footer class="pagination glass-panel">
+                <button id="prevBtn" class="btn-icon"><i class="fa-solid fa-chevron-left"></i></button>
+                <span id="pageInfo">Página 1 de 1</span>
+                <button id="nextBtn" class="btn-icon"><i class="fa-solid fa-chevron-right"></i></button>
+            </footer>
+        </main>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
