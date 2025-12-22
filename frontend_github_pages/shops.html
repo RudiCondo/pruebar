@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tiendas - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link active">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+                <li id="auth-link-login"><a href="login.html" class="btn btn-outline"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Iniciar Sesión</a></li>
+                <li id="auth-link-register"><a href="register.html" class="btn btn-primary"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Registrarse</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <h1 class="section-title">Nuestras <span class="highlight">Tiendas</span></h1>
+
+        <div class="grid" id="shops-grid">
+            <p style="grid-column: 1/-1; text-align: center;">Cargando tiendas...</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NexusStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', loadShops);
+
+        async function loadShops() {
+            const grid = document.getElementById('shops-grid');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/tiendas`);
+                if (res.ok) {
+                    const shops = await res.json();
+                    renderShops(shops);
+                } else {
+                    renderDemoShops();
+                }
+            } catch (e) {
+                renderDemoShops();
+            }
+        }
+
+        function renderShops(shops) {
+            const grid = document.getElementById('shops-grid');
+            if (!shops || shops.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay tiendas disponibles.</p>';
+                return;
+            }
+            grid.innerHTML = shops.map(s => {
+                const name = s.nombre_tienda || s.nombre || 'Tienda';
+                const desc = s.descripcion || 'Visita esta increíble tienda.';
+                // Use logo_url if available, else use default icon styling
+                let imageContent;
+                if (s.logo_url) {
+                    imageContent = `<img src="${s.logo_url}" alt="${name}" style="width:100%; height:100%; object-fit:cover;">`;
+                } else {
+                    imageContent = `<i class="fas fa-store" style="font-size: 3rem; color: white;"></i>`;
+                }
+
+                return `
+                <div class="card">
+                    <div class="card-image" style="background: linear-gradient(135deg, #6c5ce7, #0984e3); display: flex; align-items: center; justify-content: center; overflow: hidden;">
+                        ${imageContent}
+                    </div>
+                    <div class="card-body">
+                        <h3 class="card-title">${name}</h3>
+                        <p class="card-text">${desc}</p>
+                        <button class="btn btn-outline" style="margin-top: 15px; width: 100%;" onclick="location.href='shop-detail.html?id=${s.id_tienda || s.id}'">Ver Tienda</button>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        function renderDemoShops() {
+            const dummy = [
+                { nombre_tienda: 'TechWorld', descripcion: 'Todo en tecnología y gadgets.' },
+                { nombre_tienda: 'ModaUrbana', descripcion: 'Ropa con estilo para la ciudad.' },
+                { nombre_tienda: 'GreenLife', descripcion: 'Productos ecológicos y sustentables.' }
+            ];
+            renderShops(dummy);
+        }
+    </script>
+</body>
+
+</html>

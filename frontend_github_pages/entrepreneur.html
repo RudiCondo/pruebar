@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel Emprendedor - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .dashboard-grid {
+                grid-template-columns: 350px 1fr;
+            }
+        }
+
+        .panel-card {
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: 15px;
+            padding: 25px;
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .product-item {
+            display: flex;
+            align-items: center;
+            background: rgba(0, 0, 0, 0.2);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .product-img {
+            width: 60px;
+            height: 60px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 15px;
+            background: #333;
+        }
+
+        .product-info {
+            flex: 1;
+        }
+
+        .product-actions {
+            display: flex;
+            gap: 10px;
+        }
+
+        .action-btn {
+            background: rgba(255, 255, 255, 0.1);
+            border: none;
+            color: white;
+            padding: 8px;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+
+        .action-btn:hover {
+            background: var(--accent);
+        }
+
+        .action-btn.delete:hover {
+            background: #ff4757;
+        }
+
+        /* Modal Styles (Shared) */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.8);
+            align-items: center;
+            justify-content: center;
+        }
+
+        .modal.active {
+            display: flex;
+        }
+
+        .modal-content {
+            background: var(--bg-dark);
+            border: 1px solid var(--accent);
+            border-radius: 15px;
+            padding: 30px;
+            width: 90%;
+            max-width: 500px;
+            position: relative;
+            max-height: 90vh;
+            overflow-y: auto;
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--text-secondary);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+                <!-- Auth links loaded via JS -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <h1 class="section-title">Panel <span class="highlight">Emprendedor</span></h1>
+
+        <div class="dashboard-grid">
+            <!-- Sidebar: Shop Info -->
+            <div class="panel-card">
+                <h2 style="margin-bottom: 20px;">Mi Tienda</h2>
+                <div id="shop-loading" style="text-align: center;">Cargando tienda...</div>
+
+                <div id="no-shop-view" style="display: none; text-align: center;">
+                    <p style="margin-bottom: 20px; color: var(--text-secondary);">Aún no tienes una tienda registrada.
+                    </p>
+                    <button class="btn btn-primary" onclick="openShopModal()">Crear Tienda</button>
+                </div>
+
+                <div id="shop-view" style="display: none;">
+                    <div style="text-align: center; margin-bottom: 20px;">
+                        <img id="shop-logo-display" src="" alt="Logo"
+                            style="width: 100px; height: 100px; border-radius: 50%; object-fit: cover; border: 2px solid var(--accent); margin-bottom: 15px;">
+                        <h3 id="shop-name-display">Nombre Tienda</h3>
+                        <span class="status-badge"
+                            style="background: rgba(46, 213, 115, 0.2); color: #2ed573; padding: 4px 10px; border-radius: 20px; font-size: 0.8rem;">Activo</span>
+                    </div>
+                    <p id="shop-desc-display"
+                        style="color: var(--text-secondary); margin-bottom: 20px; text-align: center;">Descripción...
+                    </p>
+                    <button class="btn btn-outline" style="width: 100%;" onclick="openShopModal(true)">Editar
+                        Información</button>
+                </div>
+            </div>
+
+            <!-- Main Content: Products Management -->
+            <div class="panel-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                    <h2>Mis Productos</h2>
+                    <button id="add-product-btn" class="btn btn-primary" onclick="openProductModal()" disabled><i
+                            class="fas fa-plus"></i> Nuevo Producto</button>
+                </div>
+
+                <div id="products-list">
+                    <p style="text-align: center; color: var(--text-secondary);">Cargando productos...</p>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Shop Modal -->
+    <div id="shopModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('shopModal')">&times;</span>
+            <h2 id="shopModalTitle">Crear Tienda</h2>
+            <form id="shopForm">
+                <input type="hidden" id="shopId">
+                <div class="form-group">
+                    <label class="form-label">Nombre de la Tienda</label>
+                    <input type="text" id="shopName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">URL del Logo</label>
+                    <input type="url" id="shopLogo" class="form-input" placeholder="https://ejemplo.com/logo.jpg">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="shopDesc" class="form-input" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Guardar
+                    Tienda</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Product Modal -->
+    <div id="productModal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal" onclick="closeModal('productModal')">&times;</span>
+            <h2 id="productModalTitle">Nuevo Producto</h2>
+            <form id="productForm">
+                <input type="hidden" id="prodId">
+                <div class="form-group">
+                    <label class="form-label">Nombre del Producto</label>
+                    <input type="text" id="prodName" class="form-input" required>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Categoría</label>
+                    <select id="prodCategory" class="form-input" required>
+                        <option value="">Seleccione una categoría</option>
+                        <!-- Loaded dynamically -->
+                    </select>
+                </div>
+                <div class="form-group" style="display: grid; grid-template-columns: 1fr 1fr; gap: 15px;">
+                    <div>
+                        <label class="form-label">Precio</label>
+                        <input type="number" id="prodPrice" class="form-input" step="0.01" min="0" required>
+                    </div>
+                    <div>
+                        <label class="form-label">Stock</label>
+                        <input type="number" id="prodStock" class="form-input" min="0" required>
+                    </div>
+                </div>
+                <div class="form-group">
+                    <label class="form-label">URL Imagen</label>
+                    <input type="url" id="prodImg" class="form-input" placeholder="https://...">
+                </div>
+                <div class="form-group">
+                    <label class="form-label">Descripción</label>
+                    <textarea id="prodDesc" class="form-input" rows="3"></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary" style="width: 100%; margin-top: 10px;">Guardar
+                    Producto</button>
+            </form>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Global state
+        let currentShop = null;
+        let categories = [];
+
+        document.addEventListener('DOMContentLoaded', async () => {
+            // Verify User
+            const token = localStorage.getItem('token');
+            const userStr = localStorage.getItem('user');
+            if (!token || !userStr) { window.location.href = 'login.html'; return; }
+            const user = JSON.parse(userStr);
+            if (user.rol !== 'emprendedor') {
+                alert('Acceso restringido a emprendedores.');
+                window.location.href = 'index.html';
+                return;
+            }
+
+            // Initial Loads
+            await loadCategories();
+            await parseUserShop();
+        });
+
+        // --- Categories ---
+        async function loadCategories() {
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/categorias`);
+                if (res.ok) {
+                    const json = await res.json();
+                    categories = json.data || json;
+                    // Populate Select
+                    const select = document.getElementById('prodCategory');
+                    categories.forEach(c => {
+                        const opt = document.createElement('option');
+                        opt.value = c.id_categoria;
+                        opt.textContent = c.nombre_categoria;
+                        select.appendChild(opt);
+                    });
+                }
+            } catch (e) { console.error('Error loading categories', e); }
+        }
+
+        // --- Shop Management ---
+        async function parseUserShop() {
+            // Since there isn't a direct endpoint "my-shop", we fetch all and find the one belonging to user
+            // Optimization: Backend *should* ideally have an endpoint like /tiendas/me or check via profile
+            // For now, we iterate /tiendas or check if backend filters allow it. 
+            // Better yet, let's try to infer from user ID if list endpoint returns user_id
+
+            const user = JSON.parse(localStorage.getItem('user'));
+            const containerLoading = document.getElementById('shop-loading');
+            const viewNoShop = document.getElementById('no-shop-view');
+            const viewShop = document.getElementById('shop-view');
+            const btnAddProd = document.getElementById('add-product-btn');
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/tiendas`);
+                if (res.ok) {
+                    const shops = await res.json();
+                    // Find shop where id_usuario matches
+                    currentShop = shops.find(s => s.id_usuario === user.id); // Assuming user.id exists
+
+                    containerLoading.style.display = 'none';
+
+                    if (currentShop) {
+                        currentShop.id = currentShop.id_tienda; // Normalize ID
+                        viewShop.style.display = 'block';
+                        viewNoShop.style.display = 'none';
+
+                        document.getElementById('shop-name-display').textContent = currentShop.nombre_tienda;
+                        document.getElementById('shop-desc-display').textContent = currentShop.descripcion || 'Sin descripción';
+                        document.getElementById('shop-logo-display').src = currentShop.logo_url || 'assets/images/default-shop.png';
+
+                        // Enable products module
+                        btnAddProd.disabled = false;
+                        loadShopProducts(currentShop.id_tienda);
+                    } else {
+                        viewShop.style.display = 'none';
+                        viewNoShop.style.display = 'block';
+                        btnAddProd.disabled = true;
+                        document.getElementById('products-list').innerHTML = '<p style="text-align: center;">Debes crear una tienda para agregar productos.</p>';
+                    }
+                }
+            } catch (e) {
+                console.error(e);
+                containerLoading.textContent = 'Error al cargar información de la tienda.';
+            }
+        }
+
+        document.getElementById('shopForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const btn = e.target.querySelector('button');
+            btn.disabled = true;
+
+            const name = document.getElementById('shopName').value;
+            const desc = document.getElementById('shopDesc').value;
+            const logo = document.getElementById('shopLogo').value;
+            const id = document.getElementById('shopId').value;
+            const token = localStorage.getItem('token');
+
+            const isEdit = !!id;
+            const url = isEdit ? `${CONFIG.API_BASE_URL}/tiendas/${id}` : `${CONFIG.API_BASE_URL}/tiendas`;
+            const method = isEdit ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ nombre_tienda: name, descripcion: desc, logo_url: logo })
+                });
+
+                if (res.ok) {
+                    alert(isEdit ? 'Tienda actualizada' : 'Tienda creada exitosamente');
+                    closeModal('shopModal');
+                    location.reload(); // Reload to refresh state
+                } else {
+                    const data = await res.json();
+                    alert('Error: ' + (data.message || data.error || 'Algo salió mal'));
+                }
+            } catch (e) { console.error(e); }
+            finally { btn.disabled = false; }
+        });
+
+
+        // --- Products Management ---
+        async function loadShopProducts(shopId) {
+            const list = document.getElementById('products-list');
+            try {
+                // Fetch products filtered by shop
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos?id_tienda=${shopId}`);
+                if (res.ok) {
+                    const json = await res.json();
+                    const products = json.data || json;
+
+                    if (products.length === 0) {
+                        list.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Aún no has agregado productos.</p>';
+                        return;
+                    }
+
+                    list.innerHTML = products.map(p => `
+                        <div class="product-item">
+                            <img src="${p.imagen_url || 'https://via.placeholder.com/60'}" class="product-img" alt="Prod">
+                            <div class="product-info">
+                                <h4 style="margin-bottom: 5px;">${p.nombre_producto}</h4>
+                                <p style="font-size: 0.9rem; color: var(--text-secondary);">Stock: ${p.stock} | $${parseFloat(p.precio).toFixed(2)}</p>
+                            </div>
+                            <div class="product-actions">
+                                <button class="action-btn" onclick='editProduct(${JSON.stringify(p).replace(/'/g, "&#39;")})'>
+                                    <i class="fas fa-edit"></i>
+                                </button>
+                                <button class="action-btn delete" onclick="deleteProduct(${p.id_producto})">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) {
+                console.error(e);
+                list.innerHTML = '<p style="text-align: center; color: red;">Error al cargar productos.</p>';
+            }
+        }
+
+        document.getElementById('productForm').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            const id = document.getElementById('prodId').value;
+            const isEdit = !!id;
+
+            const payload = {
+                nombre_producto: document.getElementById('prodName').value,
+                id_categoria: document.getElementById('prodCategory').value,
+                precio: document.getElementById('prodPrice').value,
+                stock: document.getElementById('prodStock').value,
+                imagen_url: document.getElementById('prodImg').value,
+                descripcion: document.getElementById('prodDesc').value,
+                id_tienda: currentShop.id // Ensure we send current shop ID if creating
+            };
+
+            // Remove id_tienda if editing (sometimes APIs complain if you send it on update)
+            if (isEdit) {
+                // Keep it if your API requires it, usually not for updates if checking ownership on server
+            }
+
+            const url = isEdit ? `${CONFIG.API_BASE_URL}/productos/${id}` : `${CONFIG.API_BASE_URL}/productos`;
+            const method = isEdit ? 'PUT' : 'POST';
+
+            try {
+                const res = await fetch(url, {
+                    method: method,
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify(payload)
+                });
+
+                const data = await res.json();
+
+                if (res.ok || data.success) {
+                    alert('Producto guardado.');
+                    closeModal('productModal');
+                    loadShopProducts(currentShop.id);
+                } else {
+                    let msg = data.message || 'Error desconocido';
+                    if (data.errors) msg += JSON.stringify(data.errors);
+                    alert('Error: ' + msg);
+                }
+            } catch (e) { console.error(e); alert('Error de conexión'); }
+        });
+
+        async function deleteProduct(id) {
+            if (!confirm('¿Eliminar producto?')) return;
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    loadShopProducts(currentShop.id);
+                } else {
+                    alert('Error al eliminar');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        // --- Modal Utils ---
+        function openShopModal(isEdit = false) {
+            document.getElementById('shopModalTitle').textContent = isEdit ? 'Editar Tienda' : 'Crear Tienda';
+            if (isEdit && currentShop) {
+                document.getElementById('shopId').value = currentShop.id;
+                document.getElementById('shopName').value = currentShop.nombre_tienda;
+                document.getElementById('shopDesc').value = currentShop.descripcion || '';
+                document.getElementById('shopLogo').value = currentShop.logo_url || '';
+            } else {
+                document.getElementById('shopForm').reset();
+                document.getElementById('shopId').value = '';
+            }
+            document.getElementById('shopModal').classList.add('active');
+        }
+
+        function openProductModal() {
+            document.getElementById('productModalTitle').textContent = 'Nuevo Producto';
+            document.getElementById('productForm').reset();
+            document.getElementById('prodId').value = '';
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function editProduct(p) {
+            document.getElementById('productModalTitle').textContent = 'Editar Producto';
+            document.getElementById('prodId').value = p.id_producto;
+            document.getElementById('prodName').value = p.nombre_producto;
+            document.getElementById('prodCategory').value = p.id_categoria;
+            document.getElementById('prodPrice').value = p.precio;
+            document.getElementById('prodStock').value = p.stock;
+            document.getElementById('prodImg').value = p.imagen_url || '';
+            document.getElementById('prodDesc').value = p.descripcion || '';
+            document.getElementById('productModal').classList.add('active');
+        }
+
+        function closeModal(id) {
+            document.getElementById(id).classList.remove('active');
+        }
+
+        // Close modal on outside click
+        window.onclick = function (event) {
+            if (event.target.classList.contains('modal')) {
+                event.target.classList.remove('active');
+            }
+        }
+    </script>
+</body>
+
+</html>

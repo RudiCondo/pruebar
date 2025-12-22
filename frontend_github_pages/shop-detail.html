@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Tienda - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .shop-header {
+            text-align: center;
+            padding: 50px 20px;
+            background: rgba(255, 255, 255, 0.05);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            margin-bottom: 40px;
+        }
+
+        .shop-logo-large {
+            width: 150px;
+            height: 150px;
+            border-radius: 50%;
+            border: 4px solid var(--accent);
+            object-fit: cover;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div id="shop-header-container" class="shop-header" style="display: none;">
+        <img id="s-logo" src="" alt="Logo" class="shop-logo-large">
+        <h1 id="s-name" class="section-title" style="margin-bottom: 10px;">Nombre Tienda</h1>
+        <p id="s-desc" style="max-width: 600px; margin: 0 auto; color: var(--text-secondary);">Descripción...</p>
+    </div>
+
+    <div class="container" style="padding-bottom: 50px;">
+        <h2 style="margin-bottom: 30px; border-left: 4px solid var(--accent); padding-left: 15px;">Productos de esta
+            Tienda</h2>
+
+        <div class="grid" id="shop-products-grid">
+            <p style="grid-column: 1/-1; text-align: center;">Cargando productos...</p>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const shopId = urlParams.get('id');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!shopId) {
+                window.location.href = 'shops.html';
+                return;
+            }
+            loadShopDetails();
+            loadShopProducts();
+        });
+
+        async function loadShopDetails() {
+            try {
+                // Find shop in full list (Optimization: Backend should have /tiendas/{id} endpoint)
+                const res = await fetch(`${CONFIG.API_BASE_URL}/tiendas`);
+                if (res.ok) {
+                    const shops = await res.json();
+                    // Loose comparison for string/int match
+                    const shop = shops.find(s => s.id_tienda == shopId || s.id == shopId);
+
+                    if (shop) {
+                        document.getElementById('shop-header-container').style.display = 'block';
+                        document.getElementById('s-name').textContent = shop.nombre_tienda;
+                        document.getElementById('s-desc').textContent = shop.descripcion || 'Sin descripción';
+                        document.getElementById('s-logo').src = shop.logo_url || 'assets/images/default-shop.png';
+                    } else {
+                        document.querySelector('.container').innerHTML = '<p style="text-align: center;">Tienda no encontrada.</p>';
+                    }
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function loadShopProducts() {
+            const grid = document.getElementById('shop-products-grid');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos?id_tienda=${shopId}`);
+                if (res.ok) {
+                    const json = await res.json();
+                    const products = json.data || json;
+
+                    if (products.length === 0) {
+                        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center; color: var(--text-secondary);">Esta tienda aún no tiene productos.</p>';
+                        return;
+                    }
+
+                    // Get User Role
+                    let userRole = 'guest';
+                    try {
+                        const user = JSON.parse(localStorage.getItem('user'));
+                        if (user) userRole = user.rol;
+                    } catch (e) { }
+
+                    grid.innerHTML = products.map(p => {
+                        const imageSrc = p.imagen_url || 'https://via.placeholder.com/400x300';
+                        const productId = p.id_producto || p.id;
+
+                        let addToCartBtn = '';
+                        if (userRole === 'cliente' || userRole === 'guest') {
+                            addToCartBtn = `
+                                <button class="btn btn-primary" onclick="addToCart(${productId})" style="flex: 1; font-size: 0.9rem;">
+                                    <i class="fas fa-cart-plus"></i> Agregar
+                                </button>
+                            `;
+                        }
+
+                        return `
+                        <div class="card">
+                            <img src="${imageSrc}" class="card-image" alt="${p.nombre_producto}">
+                            <div class="card-body">
+                                <h3 class="card-title">${p.nombre_producto}</h3>
+                                <p class="card-text">${p.descripcion ? p.descripcion.substring(0, 60) + '...' : ''}</p>
+                                <p class="price">$${parseFloat(p.precio).toFixed(2)}</p>
+                                <div style="display: flex; gap: 10px; margin-top: 15px;">
+                                     ${addToCartBtn}
+                                     <button class="btn btn-outline" style="font-size: 0.9rem; flex: 1;" onclick="location.href='product-detail.html?id=${productId}'">Ver</button>
+                                </div>
+                            </div>
+                        </div>
+                    `}).join('');
+                }
+            } catch (e) {
+                console.error(e);
+                grid.innerHTML = '<p style="text-align: center;">Error al cargar productos.</p>';
+            }
+        }
+
+        // Add to Cart Logic (Duplicated for simplicity, could be utility)
+        async function addToCart(id) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Debes iniciar sesión para comprar');
+                window.location.href = 'login.html';
+                return;
+            }
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito/detalle`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ id_producto: id, cantidad: 1 })
+                });
+                if (res.ok) alert('Producto agregado');
+                else alert('Error al agregar');
+            } catch (e) { console.error(e); }
+        }
+    </script>
+</body>
+
+</html>

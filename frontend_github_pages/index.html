@@ -1,0 +1,138 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>E-Commerce - Inicio</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <!-- Navbar -->
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link active">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+                <!-- Dynamic Links will be handled by JS -->
+                <li id="auth-link-login"><a href="login.html" class="btn btn-outline"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Iniciar Sesión</a></li>
+                <li id="auth-link-register"><a href="register.html" class="btn btn-primary"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Registrarse</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <!-- Hero Section -->
+    <header class="hero">
+        <div class="container hero-content">
+            <h1>El Futuro del <br><span class="highlight">Comercio Digital</span></h1>
+            <p>Descubre tiendas únicas, productos exclusivos y una experiencia de compra sin límites. Conectamos
+                emprendedores con el mundo.</p>
+            <div style="display: flex; gap: 20px; justify-content: center; flex-wrap: wrap;">
+                <a href="shops.html" class="btn btn-primary">Explorar Tiendas</a>
+                <a href="products.html" class="btn btn-outline">Ver Productos</a>
+            </div>
+        </div>
+    </header>
+
+    <!-- Featured Section -->
+    <section id="featured" class="container" style="padding: 100px 20px;">
+        <h2 class="section-title">Nuevos <span class="highlight">Productos</span></h2>
+
+        <!-- This grid will be populated by JS -->
+        <div class="grid" id="featured-grid">
+            <!-- Loading Placeholder -->
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-body">
+                    <h3 class="card-title">Cargando...</h3>
+                    <p class="card-text">Obteniendo los mejores productos para ti.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-body">
+                    <h3 class="card-title">Cargando...</h3>
+                    <p class="card-text">Obteniendo los mejores productos para ti.</p>
+                </div>
+            </div>
+            <div class="card">
+                <div class="card-image"></div>
+                <div class="card-body">
+                    <h3 class="card-title">Cargando...</h3>
+                    <p class="card-text">Obteniendo los mejores productos para ti.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NexusStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        // Init logic specifically for index
+        document.addEventListener('DOMContentLoaded', () => {
+            loadFeatured();
+        });
+
+        async function loadFeatured() {
+            const grid = document.getElementById('featured-grid');
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos`);
+                if (res.ok) {
+                    const json = await res.json();
+                    const products = json.data || json;
+
+                    // Solo mostramos los primeros 3 para el inicio
+                    const featured = products.slice(0, 3);
+
+                    if (featured.length === 0) {
+                        grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos disponibles en este momento.</p>';
+                        return;
+                    }
+
+                    grid.innerHTML = featured.map(p => {
+                        const name = p.nombre_producto || p.nombre;
+                        const price = parseFloat(p.precio).toFixed(2);
+                        const desc = p.descripcion || '';
+                        const img = p.imagen_url || 'https://via.placeholder.com/400x300?text=NexusStore';
+                        const id = p.id_producto || p.id;
+
+                        return `
+                            <div class="card">
+                                <img src="${img}" alt="${name}" class="card-image">
+                                <div class="card-body">
+                                    <h3 class="card-title">${name}</h3>
+                                    <p class="card-text">${desc.length > 80 ? desc.substring(0, 80) + '...' : desc}</p>
+                                    <p class="price">$${price}</p>
+                                    <button onclick="location.href='product-detail.html?id=${id}'" class="btn btn-primary" style="margin-top: 15px; width: 100%; font-size: 0.9rem;">Ver Detalles</button>
+                                </div>
+                            </div>
+                        `;
+                    }).join('');
+                } else {
+                    grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Error al cargar productos.</p>';
+                }
+            } catch (e) {
+                console.error('Error loading featured products:', e);
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Error de conexión.</p>';
+            }
+        }
+    </script>
+</body>
+
+</html>

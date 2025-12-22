@@ -1,0 +1,291 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Detalle de Producto - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .product-detail-container {
+            display: grid;
+            grid-template-columns: 1fr;
+            gap: 30px;
+        }
+
+        @media (min-width: 900px) {
+            .product-detail-container {
+                grid-template-columns: 1fr 1fr;
+            }
+        }
+
+        .main-image {
+            width: 100%;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            object-fit: cover;
+            max-height: 500px;
+        }
+
+        .prod-info {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .comments-section {
+            margin-top: 50px;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .comment-item {
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 15px 0;
+        }
+
+        .comment-item:last-child {
+            border: none;
+        }
+
+        .stars {
+            color: #f1c40f;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <!-- Links loaded via JS -->
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <div id="loading" style="text-align: center; margin-top: 50px;">Cargando producto...</div>
+
+        <div id="product-content" style="display: none;">
+            <a href="products.html"
+                style="color: var(--text-secondary); text-decoration: none; display: inline-block; margin-bottom: 20px;">
+                <i class="fas fa-arrow-left"></i> Volver a Productos
+            </a>
+
+            <div class="product-detail-container">
+                <div>
+                    <img id="p-img" src="" alt="Producto" class="main-image">
+                </div>
+                <div class="prod-info">
+                    <h1 id="p-name" style="font-size: 2.5rem; margin-bottom: 10px;">Nombre del Producto</h1>
+                    <div
+                        style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+                        <span id="p-price"
+                            style="font-size: 2rem; color: var(--accent); font-weight: bold;">$0.00</span>
+                        <span id="p-shop"
+                            style="background: rgba(255,255,255,0.1); padding: 5px 15px; border-radius: 20px;">Tienda</span>
+                    </div>
+                    <p id="p-desc"
+                        style="color: var(--text-secondary); font-size: 1.1rem; line-height: 1.6; margin-bottom: 30px;">
+                        Descripción completa...
+                    </p>
+                    <div id="cart-controls" style="display: none;">
+                        <div class="form-group" style="max-width: 150px;">
+                            <label class="form-label">Cantidad</label>
+                            <input type="number" id="p-qty" class="form-input" value="1" min="1">
+                        </div>
+                        <button id="add-to-cart-btn" class="btn btn-primary" onclick="addToCart()"
+                            style="padding: 15px; font-size: 1.1rem; width: 100%;">
+                            <i class="fas fa-cart-plus"></i> Agregar al Carrito
+                        </button>
+                    </div>
+                    <p id="p-stock" style="margin-top: 10px; color: #2ed573; text-align: center;">Stock Disponible</p>
+                </div>
+            </div>
+
+            <div class="comments-section">
+                <h2>Comentarios y Valoraciones</h2>
+
+                <div id="comments-list" style="margin-top: 20px; margin-bottom: 30px;">
+                    <p style="color: var(--text-secondary);">No hay comentarios aún.</p>
+                </div>
+
+                <div id="add-comment-box" style="border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                    <h3>Deja tu opinión</h3>
+                    <form id="comment-form">
+                        <div class="form-group">
+                            <label class="form-label">Calificación (1-5)</label>
+                            <select id="c-stars" class="form-input" style="max-width: 100px;">
+                                <option value="5">5 ⭐⭐⭐⭐⭐</option>
+                                <option value="4">4 ⭐⭐⭐⭐</option>
+                                <option value="3">3 ⭐⭐⭐</option>
+                                <option value="2">2 ⭐⭐</option>
+                                <option value="1">1 ⭐</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label class="form-label">Comentario</label>
+                            <textarea id="c-text" class="form-input" rows="3"
+                                placeholder="¿Qué te pareció este producto?"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-outline">Publicar Comentario</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        const urlParams = new URLSearchParams(window.location.search);
+        const productId = urlParams.get('id');
+
+        document.addEventListener('DOMContentLoaded', () => {
+            if (!productId) {
+                window.location.href = 'products.html';
+                return;
+            }
+            loadProduct();
+            loadComments();
+        });
+
+        async function loadProduct() {
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos/${productId}`);
+                if (res.ok) {
+                    const json = await res.json();
+                    const p = json.data || json;
+
+                    document.getElementById('loading').style.display = 'none';
+                    document.getElementById('product-content').style.display = 'block';
+
+                    document.getElementById('p-name').textContent = p.nombre_producto;
+                    document.getElementById('p-price').textContent = '$' + parseFloat(p.precio).toFixed(2);
+                    document.getElementById('p-desc').textContent = p.descripcion || 'Sin descripción';
+                    document.getElementById('p-img').src = p.imagen_url || 'https://via.placeholder.com/500x400';
+                    document.getElementById('p-stock').textContent = `Stock: ${p.stock} unidades`;
+                    document.getElementById('p-shop').textContent = p.tienda ? p.tienda.nombre_tienda : 'Tienda Desconocida';
+
+                    // Check for Role to show/hide cart controls
+                    const userStr = localStorage.getItem('user');
+                    const user = userStr ? JSON.parse(userStr) : null;
+                    const role = user ? user.rol : 'guest';
+
+                    if (role === 'cliente' || role === 'guest') {
+                        document.getElementById('cart-controls').style.display = 'block';
+                    }
+
+                } else {
+                    document.getElementById('loading').textContent = 'Producto no encontrado';
+                }
+            } catch (e) {
+                console.error(e);
+                document.getElementById('loading').textContent = 'Error de conexión';
+            }
+        }
+
+        async function addToCart() {
+            const token = localStorage.getItem('token');
+            const qty = document.getElementById('p-qty').value;
+
+            if (!token) {
+                alert('Inicia sesión para comprar');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito/detalle`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ id_producto: productId, cantidad: qty })
+                });
+
+                if (res.ok) {
+                    alert('Agregado al Carrito');
+                } else {
+                    const data = await res.json();
+                    alert('Error: ' + (data.message || 'Error al agregar'));
+                }
+            } catch (e) { console.error(e); alert('Error de red'); }
+        }
+
+        // --- Comments ---
+        async function loadComments() {
+            const list = document.getElementById('comments-list');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/productos/${productId}/comentarios`);
+                if (res.ok) {
+                    const json = await res.json();
+                    // Assume response is array of comments
+                    const comments = json.data || json;
+
+                    if (comments.length === 0) {
+                        list.innerHTML = '<p style="color: var(--text-secondary);">Sé el primero en comentar.</p>';
+                        return;
+                    }
+
+                    list.innerHTML = comments.map(c => `
+                        <div class="comment-item">
+                            <div style="display: flex; justify-content: space-between; margin-bottom: 5px;">
+                                <strong>${c.usuario ? c.usuario.name : 'Usuario'}</strong>
+                                <span class="stars">${'★'.repeat(c.calificacion)}${'☆'.repeat(5 - c.calificacion)}</span>
+                            </div>
+                            <p>${c.comentario || ''}</p>
+                            <small style="color: var(--text-secondary);">${new Date(c.created_at).toLocaleDateString()}</small>
+                        </div>
+                    `).join('');
+                }
+            } catch (e) { console.error('Error loading comments', e); }
+        }
+
+        document.getElementById('comment-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const token = localStorage.getItem('token');
+            if (!token) { alert('Debes iniciar sesión'); return; }
+
+            const stars = document.getElementById('c-stars').value;
+            const text = document.getElementById('c-text').value;
+            const btn = e.target.querySelector('button');
+
+            btn.disabled = true;
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/comentarios`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({
+                        id_producto: productId,
+                        calificacion: stars,
+                        comentario: text
+                    })
+                });
+
+                if (res.ok) {
+                    alert('Comentario publicado');
+                    document.getElementById('comment-form').reset();
+                    loadComments();
+                } else {
+                    const d = await res.json();
+                    alert('Error: ' + (d.message || 'No se pudo comentar'));
+                }
+            } catch (e) { console.error(e); } finally { btn.disabled = false; }
+        });
+    </script>
+</body>
+
+</html>

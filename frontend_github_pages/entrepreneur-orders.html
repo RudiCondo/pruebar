@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestionar Pedidos - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .order-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+        }
+
+        .status-badge {
+            padding: 5px 12px;
+            border-radius: 20px;
+            font-size: 0.85rem;
+            font-weight: bold;
+            text-transform: capitalize;
+        }
+
+        .status-pendiente {
+            background: #f1c40f;
+            color: #000;
+        }
+
+        .status-confirmado {
+            background: #3498db;
+            color: #fff;
+        }
+
+        .status-pago_acordado {
+            background: #9b59b6;
+            color: #fff;
+        }
+
+        .status-en_camino {
+            background: #e67e22;
+            color: #fff;
+        }
+
+        .status-entregado {
+            background: #2ecc71;
+            color: #fff;
+        }
+
+        .status-cancelado {
+            background: #e74c3c;
+            color: #fff;
+        }
+
+        .order-details {
+            margin-top: 15px;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+            padding-top: 15px;
+        }
+
+        .product-mini {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+            margin-bottom: 10px;
+        }
+
+        .product-mini img {
+            width: 50px;
+            height: 50px;
+            border-radius: 5px;
+            object-fit: cover;
+        }
+
+        .actions {
+            margin-top: 20px;
+            display: flex;
+            gap: 10px;
+            flex-wrap: wrap;
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <h1 class="section-title">Pedidos <span class="highlight">Recibidos</span></h1>
+        <p style="text-align: center; color: var(--text-secondary); margin-bottom: 40px;">
+            Gestiona los estados de los pedidos de tus clientes aquí.
+        </p>
+
+        <div id="orders-container">
+            <p style="text-align: center;">Cargando pedidos...</p>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const user = JSON.parse(localStorage.getItem('user'));
+            if (!user || user.rol !== 'emprendedor') {
+                window.location.href = 'index.html';
+                return;
+            }
+            loadShopOrders();
+        });
+
+        async function loadShopOrders() {
+            const container = document.getElementById('orders-container');
+            const token = localStorage.getItem('token');
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/tienda/pedidos`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    const json = await res.json();
+                    const orders = json.data;
+
+                    if (orders.length === 0) {
+                        container.innerHTML = '<p style="text-align: center; color: var(--text-secondary);">Aún no has recibido pedidos.</p>';
+                        return;
+                    }
+
+                    container.innerHTML = orders.map(order => {
+                        const date = new Date(order.created_at).toLocaleDateString('es-ES', {
+                            year: 'numeric', month: 'long', day: 'numeric', hour: '2-digit', minute: '2-digit'
+                        });
+
+                        return `
+                        <div class="order-card">
+                            <div style="display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 10px;">
+                                <div>
+                                    <h3 style="margin: 0;">Pedido #${order.id_pedido}</h3>
+                                    <small style="color: var(--text-secondary);">${date}</small>
+                                </div>
+                                <span class="status-badge status-${order.estado}">${order.estado.replace('_', ' ')}</span>
+                            </div>
+                            
+                            <div style="margin: 10px 0;">
+                                <strong>Cliente:</strong> ${order.usuario ? order.usuario.name : 'Desconocido'} (${order.usuario ? order.usuario.email : ''})
+                            </div>
+
+                            <div class="order-details">
+                                <h4 style="margin-bottom: 15px;">Productos solicitados:</h4>
+                                ${order.detalles.map(d => `
+                                    <div class="product-mini">
+                                        <img src="${d.producto.imagen_url || 'https://via.placeholder.com/50'}" alt="${d.producto.nombre_producto}">
+                                        <div style="flex: 1;">
+                                            <div><strong>${d.producto.nombre_producto}</strong></div>
+                                            <small style="color: var(--text-secondary);">Cantidad: ${d.cantidad} | Precio: $${parseFloat(d.precio_unitario).toFixed(2)}</small>
+                                        </div>
+                                        <div>$${(d.cantidad * d.precio_unitario).toFixed(2)}</div>
+                                    </div>
+                                `).join('')}
+                            </div>
+
+                            <div class="actions">
+                                <label style="display: block; width: 100%; margin-bottom: 5px; font-size: 0.8rem; color: var(--text-secondary);">Cambiar estado:</label>
+                                <select class="form-input" style="width: auto; height: 35px; padding: 0 10px; font-size: 0.9rem;" onchange="updateStatus(${order.id_pedido}, this.value)">
+                                    <option value="pendiente" ${order.estado === 'pendiente' ? 'selected' : ''}>Pendiente</option>
+                                    <option value="confirmado" ${order.estado === 'confirmado' ? 'selected' : ''}>Confirmado</option>
+                                    <option value="entregado" ${order.estado === 'entregado' ? 'selected' : ''}>Entregado</option>
+                                    <option value="cancelado" ${order.estado === 'cancelado' ? 'selected' : ''}>Cancelado</option>
+                                </select>
+                            </div>
+                        </div>
+                        `;
+                    }).join('');
+                } else {
+                    container.innerHTML = '<p style="text-align: center; color: var(--accent);">Error al cargar los pedidos.</p>';
+                }
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p style="text-align: center; color: var(--accent);">Error de conexión.</p>';
+            }
+        }
+
+        async function updateStatus(id, newStatus) {
+            const token = localStorage.getItem('token');
+            if (!confirm(`¿Estás seguro de cambiar el estado a "${newStatus.replace('_', ' ')}"?`)) {
+                loadShopOrders(); // Reset select
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/pedidos/${id}/estado`, {
+                    method: 'PUT',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ estado: newStatus })
+                });
+
+                const json = await res.json();
+                if (res.ok) {
+                    alert('Estado actualizado correctamente');
+                    loadShopOrders();
+                } else {
+                    alert('Error: ' + (json.message || 'No se pudo actualizar'));
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Error de red');
+            }
+        }
+    </script>
+</body>
+
+</html>

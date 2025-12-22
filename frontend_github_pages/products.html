@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Productos - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link active">Productos</a></li>
+                <li id="auth-link-login"><a href="login.html" class="btn btn-outline"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Iniciar Sesión</a></li>
+                <li id="auth-link-register"><a href="register.html" class="btn btn-primary"
+                        style="padding: 8px 20px; font-size: 0.9rem;">Registrarse</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <h1 class="section-title">Explora Nuestros <span class="highlight">Productos</span></h1>
+
+        <!-- Search & Filter Controls -->
+        <div class="search-container" style="display: flex; gap: 15px; margin-bottom: 30px; flex-wrap: wrap;">
+            <input type="text" id="search-input" class="form-input" placeholder="Buscar productos..."
+                style="flex: 2; min-width: 200px;">
+            <select id="category-filter" class="form-input" style="flex: 1; min-width: 150px;">
+                <option value="">Todas las Categorías</option>
+                <!-- Loaded via JS -->
+            </select>
+            <button class="btn btn-primary" onclick="applyFilters()">Buscar</button>
+        </div>
+
+        <div class="grid" id="products-grid">
+            <!-- Products loading -->
+            <p style="grid-column: 1/-1; text-align: center;">Cargando productos...</p>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2025 NexusStore. Todos los derechos reservados.</p>
+        </div>
+    </footer>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCategories();
+            loadProducts();
+        });
+
+        async function loadCategories() {
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/categorias`);
+                if (res.ok) {
+                    const json = await res.json();
+                    const cats = json.data || json;
+                    const select = document.getElementById('category-filter');
+                    cats.forEach(c => {
+                        const opt = document.createElement('option');
+                        opt.value = c.id_categoria;
+                        opt.textContent = c.nombre_categoria;
+                        select.appendChild(opt);
+                    });
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function applyFilters() {
+            const search = document.getElementById('search-input').value;
+            const cat = document.getElementById('category-filter').value;
+            loadProducts(search, cat);
+        }
+
+        async function loadProducts(search = '', category = '') {
+            const grid = document.getElementById('products-grid');
+            grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Cargando...</p>';
+
+            try {
+                // Construct URL with params
+                let url = `${CONFIG.API_BASE_URL}/productos?`;
+                if (search) url += `nombre=${encodeURIComponent(search)}&`;
+                if (category) url += `id_categoria=${category}&`;
+
+                const res = await fetch(url);
+                if (res.ok) {
+                    const json = await res.json();
+                    const products = json.data || json;
+                    renderProducts(products);
+                } else {
+                    console.warn('API fetch failed');
+                    // Only render demo if no filters applied (demo data is static)
+                    if (!search && !category) renderDemoProducts();
+                    else grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No se encontraron productos.</p>';
+                }
+            } catch (e) {
+                console.warn('API connection failed');
+                renderDemoProducts();
+            }
+        }
+
+        function renderProducts(products) {
+            const grid = document.getElementById('products-grid');
+            if (!products || products.length === 0) {
+                grid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">No hay productos disponibles.</p>';
+                return;
+            }
+
+            // Get User Role
+            let userRole = 'guest';
+            try {
+                const user = JSON.parse(localStorage.getItem('user'));
+                if (user) userRole = user.rol;
+            } catch (e) { }
+
+            grid.innerHTML = products.map(p => {
+                // Determine image source
+                const imageSrc = p.imagen_url || p.imagen || 'https://via.placeholder.com/400x300?text=No+Image';
+                const name = p.nombre_producto || p.nombre || 'Producto sin nombre';
+                const desc = p.descripcion || '';
+                const productId = p.id_producto || p.id;
+
+                // Conditionally render Add to Cart button
+                let addToCartBtn = '';
+                if (userRole === 'cliente' || userRole === 'guest') {
+                    addToCartBtn = `
+                        <button class="btn btn-primary" onclick="addToCart(${productId})" style="flex: 1; font-size: 0.9rem;">
+                            <i class="fas fa-cart-plus"></i> Agregar
+                        </button>
+                     `;
+                }
+
+                return `
+                <div class="card">
+                    <img src="${imageSrc}" alt="${name}" class="card-image">
+                    <div class="card-body">
+                        <h3 class="card-title">${name}</h3>
+                        <p class="card-text">${desc.length > 80 ? desc.substring(0, 80) + '...' : desc}</p>
+                        <p class="price">$${parseFloat(p.precio).toFixed(2)}</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                             ${addToCartBtn}
+                             <button class="btn btn-outline" style="font-size: 0.9rem; flex: 1;" onclick="location.href='product-detail.html?id=${productId}'">Ver</button>
+                        </div>
+                    </div>
+                </div>
+            `}).join('');
+        }
+
+        async function addToCart(id) {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                alert('Debes iniciar sesión para comprar');
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito/detalle`, {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': `Bearer ${token}`
+                    },
+                    body: JSON.stringify({ id_producto: id, cantidad: 1 })
+                });
+
+                if (res.ok) {
+                    alert('Producto agregado al carrito');
+                } else {
+                    const data = await res.json();
+                    alert('Error: ' + (data.message || 'No se pudo agregar'));
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Error de conexión');
+            }
+        }
+
+        function renderDemoProducts() {
+            const dummy = [
+                { nombre_producto: 'Laptop Gamer X', descripcion: 'Potencia extrema para tus juegos favoritos.', precio: 1500, imagen_url: 'https://images.unsplash.com/photo-1603302576837-37561b2e2302?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' },
+                { nombre_producto: 'Teclado Mecánico', descripcion: 'Switches azules y RGB personalizable.', precio: 80, imagen_url: 'https://images.unsplash.com/photo-1595225476474-87563907a212?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' },
+                { nombre_producto: 'Monitor 4K', descripcion: 'Colores vibrantes y tasa de refresco de 144Hz.', precio: 450, imagen_url: 'https://images.unsplash.com/photo-1527443224154-c4a3942d3acf?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60' }
+            ];
+            renderProducts(dummy);
+        }
+    </script>
+</body>
+
+</html>

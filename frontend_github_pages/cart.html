@@ -1,0 +1,285 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Carrito - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        .cart-item {
+            display: flex;
+            align-items: center;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 15px;
+            border-radius: 10px;
+            margin-bottom: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .cart-img {
+            width: 80px;
+            height: 80px;
+            border-radius: 8px;
+            object-fit: cover;
+            margin-right: 20px;
+        }
+
+        .cart-details {
+            flex: 1;
+        }
+
+        .cart-actions {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .qty-input {
+            width: 60px;
+            padding: 5px;
+            border-radius: 5px;
+            border: 1px solid #444;
+            background: #222;
+            color: white;
+            text-align: center;
+        }
+
+        .summary-card {
+            background: rgba(255, 255, 255, 0.05);
+            padding: 25px;
+            border-radius: 15px;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            position: sticky;
+            top: 100px;
+        }
+
+        .summary-row {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 15px;
+            font-size: 1.1rem;
+        }
+
+        .total-row {
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding-top: 15px;
+            font-weight: bold;
+            font-size: 1.3rem;
+            color: var(--accent);
+        }
+    </style>
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+                <!-- Auth links loaded via JS -->
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px; padding-bottom: 50px;">
+        <h1 class="section-title">Mi <span class="highlight">Carrito</span></h1>
+
+        <div class="grid" style="grid-template-columns: 1fr; gap: 30px;">
+            <!-- Cart Items -->
+            <div id="cart-items-container" style="grid-column: 1 / -1;">
+                <p style="text-align: center;">Cargando carrito...</p>
+            </div>
+
+            <!-- Summary (Will be injected if items exist) -->
+            <div id="cart-summary" style="display: none; max-width: 400px; margin-left: auto;">
+                <div class="summary-card">
+                    <h3>Resumen del Pedido</h3>
+                    <div class="summary-row" style="margin-top: 20px;">
+                        <span>Total Items:</span>
+                        <span id="summary-count">0</span>
+                    </div>
+                    <div class="summary-row total-row">
+                        <span>Total a Pagar:</span>
+                        <span id="summary-total">$0.00</span>
+                    </div>
+                    <button class="btn btn-primary" style="width: 100%; margin-top: 20px;" onclick="checkout()">
+                        <i class="fas fa-shopping-bag"></i> Realizar Pedido
+                    </button>
+                    <button class="btn btn-outline" style="width: 100%; margin-top: 10px;"
+                        onclick="location.href='products.html'">
+                        Seguir Comprando
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            loadCart();
+        });
+
+        async function loadCart() {
+            const container = document.getElementById('cart-items-container');
+            const summary = document.getElementById('cart-summary');
+            const token = localStorage.getItem('token');
+
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                if (res.ok) {
+                    const json = await res.json();
+
+                    if (!json.data || !json.data.detalles || json.data.detalles.length === 0) {
+                        container.innerHTML = `
+                            <div style="text-align: center; padding: 50px;">
+                                <i class="fas fa-shopping-cart" style="font-size: 4rem; color: var(--text-secondary); margin-bottom: 20px;"></i>
+                                <h3>Tu carrito está vacío</h3>
+                                <p style="color: var(--text-secondary); margin-bottom: 20px;">Parece que aún no has agregado productos.</p>
+                                <a href="products.html" class="btn btn-primary">Ir a Comprar</a>
+                            </div>
+                        `;
+                        summary.style.display = 'none';
+                        return;
+                    }
+
+                    const detalles = json.data.detalles;
+                    renderCartItems(detalles);
+                    updateSummary(detalles);
+                } else {
+                    container.innerHTML = '<p>No se pudo cargar el carrito.</p>';
+                }
+            } catch (e) {
+                console.error(e);
+                container.innerHTML = '<p>Error de conexión.</p>';
+            }
+        }
+
+        function renderCartItems(items) {
+            const container = document.getElementById('cart-items-container');
+            const summary = document.getElementById('cart-summary');
+
+            // Adjust layout for desktop to show summary on side
+            container.style.gridColumn = window.innerWidth > 900 ? 'auto' : '1 / -1';
+            summary.style.display = 'block';
+
+            container.innerHTML = items.map(item => `
+                <div class="cart-item">
+                    <img src="${item.producto.imagen_url || 'https://via.placeholder.com/80'}" class="cart-img" alt="Prod">
+                    <div class="cart-details">
+                        <h3>${item.producto.nombre_producto}</h3>
+                        <p style="color: var(--accent); font-weight: bold;">$${parseFloat(item.producto.precio).toFixed(2)}</p>
+                    </div>
+                    <div class="cart-actions">
+                        <input type="number" class="qty-input" value="${item.cantidad}" min="1" onchange="updateQty(${item.id_detalle}, this.value)">
+                        <button class="btn btn-outline" style="padding: 8px 12px; color: #ff4757; border-color: #ff4757;" onclick="removeItem(${item.id_detalle})">
+                            <i class="fas fa-trash"></i>
+                        </button>
+                    </div>
+                </div>
+            `).join('');
+
+            // Apply grid layout dynamically
+            const grid = document.querySelector('.grid');
+            if (window.innerWidth > 900) {
+                grid.style.gridTemplateColumns = '2fr 1fr';
+                container.style.gridColumn = 'auto';
+            }
+        }
+
+        function updateSummary(items) {
+            let total = 0;
+            let count = 0;
+            items.forEach(item => {
+                total += parseFloat(item.producto.precio) * parseInt(item.cantidad);
+                count += parseInt(item.cantidad);
+            });
+
+            document.getElementById('summary-count').textContent = count;
+            document.getElementById('summary-total').textContent = '$' + total.toFixed(2);
+        }
+
+        async function updateQty(id, qty) {
+            if (qty < 1) return;
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito/detalle/${id}`, {
+                    method: 'PUT',
+                    headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+                    body: JSON.stringify({ cantidad: qty })
+                });
+                if (res.ok) {
+                    loadCart(); // Reload to refresh totals
+                } else {
+                    alert('Error al actualizar');
+                }
+            } catch (e) { console.error(e); }
+        }
+
+        async function removeItem(id) {
+            if (!confirm('¿Eliminar producto?')) return;
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/carrito/detalle/${id}`, {
+                    method: 'DELETE',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    loadCart();
+                } else {
+                    alert('Error al eliminar');
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+
+        async function checkout() {
+            const btn = document.querySelector('button[onclick="checkout()"]');
+            btn.disabled = true;
+            btn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Procesando...';
+
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/pedidos`, {
+                    method: 'POST',
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+
+                const data = await res.json();
+
+                if (res.ok) {
+                    alert('¡Pedido realizado con éxito!');
+                    window.location.href = 'orders.html';
+                } else {
+                    alert('Error: ' + (data.message || 'No se pudo procesar el pedido'));
+                    btn.disabled = false;
+                    btn.innerHTML = '<i class="fas fa-shopping-bag"></i> Realizar Pedido';
+                }
+            } catch (e) {
+                console.error(e);
+                alert('Error de conexión');
+                btn.disabled = false;
+                btn.innerHTML = '<i class="fas fa-shopping-bag"></i> Realizar Pedido';
+            }
+        }
+    </script>
+</body>
+
+</html>

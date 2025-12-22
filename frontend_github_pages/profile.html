@@ -1,0 +1,130 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mi Perfil - NexusStore</title>
+    <link rel="stylesheet" href="assets/css/styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+</head>
+
+<body>
+    <nav class="navbar">
+        <div class="container nav-container">
+            <a href="index.html" class="logo">Nexus<span style="color: var(--accent);">Store</span></a>
+            <div class="mobile-toggle" id="mobile-toggle">
+                <i class="fas fa-bars"></i>
+            </div>
+            <ul class="nav-links" id="nav-links">
+                <li><a href="index.html" class="nav-link">Inicio</a></li>
+                <li><a href="shops.html" class="nav-link">Tiendas</a></li>
+                <li><a href="products.html" class="nav-link">Productos</a></li>
+            </ul>
+        </div>
+    </nav>
+
+    <div class="container" style="padding-top: 100px;">
+        <h1 class="section-title">Mi <span class="highlight">Perfil</span></h1>
+
+        <div class="auth-card" style="margin: 0 auto; max-width: 600px;">
+            <div style="text-align: center; margin-bottom: 20px;">
+                <div
+                    style="width: 100px; height: 100px; border-radius: 50%; background: var(--gradient-main); margin: 0 auto; display: flex; align-items: center; justify-content: center; font-size: 2rem; color: white;">
+                    <i class="fas fa-user"></i>
+                </div>
+            </div>
+
+            <div id="profile-info">
+                <p style="text-align: center;">Cargando información...</p>
+            </div>
+
+            <div id="extra-section"
+                style="margin-top: 30px; border-top: 1px solid rgba(255,255,255,0.1); padding-top: 20px;">
+                <h3>Mis Pedidos</h3>
+                <p style="color: var(--text-secondary); margin-top: 10px;">No tienes pedidos recientes.</p>
+            </div>
+        </div>
+    </div>
+
+    <script src="assets/js/config.js"></script>
+    <script src="assets/js/main.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const token = localStorage.getItem('token');
+            if (!token) {
+                window.location.href = 'login.html';
+                return;
+            }
+
+            const userStr = localStorage.getItem('user');
+            if (userStr) {
+                const user = JSON.parse(userStr);
+                const container = document.getElementById('profile-info');
+
+                // Determine role display
+                const roleDisplay = (user.rol || 'cliente').charAt(0).toUpperCase() + (user.rol || 'cliente').slice(1);
+
+                container.innerHTML = `
+                    <div class="form-group">
+                        <label class="form-label">Nombre</label>
+                        <input type="text" class="form-input" value="${user.name || user.nombre || ''}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Correo</label>
+                        <input type="text" class="form-input" value="${user.email || ''}" readonly>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Rol</label>
+                        <input type="text" class="form-input" value="${roleDisplay}" readonly>
+                    </div>
+                `;
+
+                // Additional Section based on Role
+                const extraSection = document.getElementById('extra-section');
+                if (user.rol === 'emprendedor') {
+                    extraSection.innerHTML = `
+                        <h3>Panel de Emprendedor</h3>
+                        <p style="color: var(--text-secondary); margin-top: 10px;">Administra tu tienda, productos y pedidos recibidos.</p>
+                        <div style="display: flex; gap: 10px; margin-top: 15px;">
+                            <button class="btn btn-primary" style="flex: 1;" onclick="location.href='entrepreneur.html'">Mi Tienda</button>
+                            <button class="btn btn-outline" style="flex: 1; border-color: var(--accent); color: var(--accent);" onclick="location.href='entrepreneur-orders.html'">Pedidos Recibidos</button>
+                        </div>
+                    `;
+                } else if (user.rol === 'admin') {
+                    extraSection.innerHTML = `
+                        <h3>Panel de Administración</h3>
+                        <p style="color: var(--text-secondary); margin-top: 10px;">Accede a todas las herramientas de administración.</p>
+                        <button class="btn btn-primary" style="margin-top: 10px; width: 100%;" onclick="location.href='admin.html'">Ir al Panel Admin</button>
+                    `;
+                } else {
+                    extraSection.innerHTML = `
+                        <h3>Mis Pedidos</h3>
+                        <p style="color: var(--text-secondary); margin-top: 10px;">Revisa el estado de tus compras.</p>
+                        <button class="btn btn-outline" style="margin-top: 10px; width: 100%;" onclick="location.href='orders.html'">Ver Mis Pedidos</button>
+                    `;
+                }
+            } else {
+                fetchProfile();
+            }
+        });
+
+        async function fetchProfile() {
+            const token = localStorage.getItem('token');
+            try {
+                const res = await fetch(`${CONFIG.API_BASE_URL}/profile`, {
+                    headers: { 'Authorization': `Bearer ${token}` }
+                });
+                if (res.ok) {
+                    const data = await res.json();
+                    localStorage.setItem('user', JSON.stringify(data));
+                    location.reload();
+                }
+            } catch (e) {
+                console.error(e);
+            }
+        }
+    </script>
+</body>
+
+</html>
